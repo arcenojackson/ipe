@@ -1,14 +1,14 @@
-import { Dispatch, SetStateAction, useState, useTransition } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { submitSignin } from "@/actions/login";
+import { submitSignin } from '@/actions/login'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Dispatch, SetStateAction, useState, useTransition } from 'react'
 
 type Props = {
-  setLoginType: Dispatch<SetStateAction<"signin" | "signup">>;
-};
+  setLoginType: Dispatch<SetStateAction<'signin' | 'signup'>>
+}
 
 export function SignIn({ setLoginType }: Props) {
-  const [isPending, setIsPending] = useState(false);
+  const [isPending, setIsPending] = useState(false)
 
   return (
     <form
@@ -16,7 +16,7 @@ export function SignIn({ setLoginType }: Props) {
       onSubmit={() => setIsPending(true)}
       className="flex flex-col max-w-96 items-center justify-center gap-8 p-8 border rounded-xl bg-slate-500"
     >
-      <h1 className="text-2xl text-slate-100 font-extrabold">IPE</h1>
+      <h1 className="text-2xl text-slate-100 font-extrabold">IPE!</h1>
       <Input
         type="email"
         name="email"
@@ -42,10 +42,10 @@ export function SignIn({ setLoginType }: Props) {
         variant="link"
         disabled={isPending}
         className="mt-2 text-slate-300"
-        onClick={() => setLoginType("signup")}
+        onClick={() => setLoginType('signup')}
       >
         Criar conta
       </Button>
     </form>
-  );
+  )
 }
