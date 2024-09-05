@@ -1,4 +1,4 @@
-import { createClient } from "@vercel/postgres";
+import { createClient } from '@vercel/postgres'
 
 const dbUrl = process.env.POSTGRES_URL_NON_POOLING || ''
 const db = createClient({ connectionString: dbUrl })

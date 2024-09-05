@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server"
-import { db } from "@/database/db"
-import { comparePassword } from "@/lib/hashing"
+import { db } from '@/database/db'
+import { comparePassword } from '@/lib/hashing'
+import { NextResponse } from 'next/server'
 
 type User = {
   id: string
@@ -29,5 +29,5 @@ export async function POST(req: Request) {
   } catch (error) {
     console.log(error)
     return NextResponse.json({ message: 'Internal Error' }, { status: 500 })
-  }  
+  }
 }

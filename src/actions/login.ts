@@ -1,7 +1,7 @@
 'use server'
 
-import { cookies } from "next/headers"
-import { redirect } from "next/navigation"
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 function rollback(error: string) {
   cookies().delete('user')
@@ -13,7 +13,7 @@ export async function submitSignin(formData: FormData) {
   const user = {
     id: '',
     name: '',
-    email: formData.get('email')?.toString() ?? '',
+    email: formData.get('email')?.toString() ?? ''
   }
   const password = formData.get('password')?.toString()
   if (!user.email || !password) return rollback('Campos inválidos')
@@ -38,7 +38,7 @@ export async function submitSignup(formData: FormData) {
   const user = {
     id: '',
     name: formData.get('name')?.toString() ?? '',
-    email: formData.get('email')?.toString() ?? '',
+    email: formData.get('email')?.toString() ?? ''
   }
   const password = formData.get('password')
   const confirmPass = formData.get('confirmPass')

@@ -1,14 +1,14 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { submitSignup } from "@/actions/login";
+import { submitSignup } from '@/actions/login'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Dispatch, SetStateAction, useState } from 'react'
 
 type Props = {
-  setLoginType: Dispatch<SetStateAction<"signin" | "signup">>;
-};
+  setLoginType: Dispatch<SetStateAction<'signin' | 'signup'>>
+}
 
 export function SignUp({ setLoginType }: Props) {
-  const [isPending, setIsPending] = useState(false);
+  const [isPending, setIsPending] = useState(false)
 
   return (
     <form
@@ -54,10 +54,10 @@ export function SignUp({ setLoginType }: Props) {
         variant="link"
         disabled={isPending}
         className="mt-2 text-slate-300"
-        onClick={() => setLoginType("signin")}
+        onClick={() => setLoginType('signin')}
       >
         Entrar
       </Button>
     </form>
-  );
+  )
 }

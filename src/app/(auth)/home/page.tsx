@@ -1,8 +1,8 @@
 'use client'
 
-import { Button } from "@/components/ui/button"
-import { useCookies } from "next-client-cookies"
-import { useRouter } from "next/navigation"
+import { Button } from '@/components/ui/button'
+import { useCookies } from 'next-client-cookies'
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
   const router = useRouter()

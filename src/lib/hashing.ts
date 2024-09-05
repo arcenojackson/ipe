@@ -1,4 +1,4 @@
-import { hashSync, genSaltSync, compareSync } from 'bcrypt'
+import { compareSync, genSaltSync, hashSync } from 'bcrypt'
 
 const SALT = 8
 
