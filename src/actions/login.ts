@@ -5,8 +5,7 @@ import { redirect } from 'next/navigation'
 
 function rollback(error: string) {
   cookies().delete('user')
-  cookies().set('errorMessage', error)
-  redirect('/')
+  return error
 }
 
 export async function submitSignin(formData: FormData) {
@@ -42,7 +41,7 @@ export async function submitSignup(formData: FormData) {
   }
   const password = formData.get('password')
   const confirmPass = formData.get('confirmPass')
-  if (!user.name || !user.email || !password || !confirmPass) return
+  if (!user.name || !user.email || !password || !confirmPass) return rollback('Campos inválidos')
   if (password !== confirmPass) return rollback('Senhas precisam ser iguais')
   try {
     const response = await fetch('http://localhost:3000/api/signup', {
