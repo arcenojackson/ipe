@@ -1,10 +1,10 @@
-import { Trash2, User2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Trash2, User2 } from 'lucide-react'
 
 export function People() {
   return (
-    <section className='w-full p-4'>
+    <section className="w-full p-4">
       <h3 className="text-xl font-bold">PESSOAS</h3>
       <div className="w-full h-[500px] p-4 flex flex-col gap-4 mt-4 rounded-lg bg-slate-700 overflow-y-scroll">
         <Card height="h-24">

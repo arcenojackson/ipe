@@ -1,5 +1,9 @@
-import { useEffect, useState } from "react";
-import { z } from "zod";
+import { getMusic } from '@/actions/music'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { Button } from './button'
 import {
   Form,
   FormControl,
@@ -7,14 +11,10 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "./form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "./input";
-import { Button } from "./button";
-import { Textarea } from "./textarea";
-import { getMusic } from "@/actions/music";
+  FormMessage
+} from './form'
+import { Input } from './input'
+import { Textarea } from './textarea'
 
 const formSchema = z.object({
   title: z.string().min(2),
@@ -25,8 +25,8 @@ const formSchema = z.object({
   lyrics: z.string().nullable().optional(),
   bpm: z.number().nullable().optional(),
   tempo: z.string().nullable().optional(),
-  tone: z.string(),
-});
+  tone: z.string()
+})
 
 type MusicProps = {
   id?: string
@@ -38,24 +38,27 @@ export function Music({ id }: MusicProps) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       tempo: '4/4'
-    },
-  });
+    }
+  })
 
   useEffect(() => {
     if (!id) return
-    (async () => {
+    ;(async () => {
       await getMusic(id)
       form.setValue('artist', 'Teste')
     })()
   }, [])
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    console.log(values)
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4 h-[500px] border-t border-b overflow-x-scroll p-4">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-4 h-[500px] border-t border-b overflow-x-scroll p-4"
+      >
         <FormField
           control={form.control}
           name="title"
@@ -63,11 +66,7 @@ export function Music({ id }: MusicProps) {
             <FormItem>
               <FormLabel>Título</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Nome da música"
-                  { ...field }
-                  value={field.value!}
-                />
+                <Input placeholder="Nome da música" {...field} value={field.value!} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -80,11 +79,7 @@ export function Music({ id }: MusicProps) {
             <FormItem>
               <FormLabel>Artista</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Nome do artista ou banda"
-                  { ...field }
-                  value={field.value!}
-                />
+                <Input placeholder="Nome do artista ou banda" {...field} value={field.value!} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -97,11 +92,7 @@ export function Music({ id }: MusicProps) {
             <FormItem>
               <FormLabel>Observações</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Adicione notas a música"
-                  { ...field }
-                  value={field.value!}
-                />
+                <Input placeholder="Adicione notas a música" {...field} value={field.value!} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -114,11 +105,7 @@ export function Music({ id }: MusicProps) {
             <FormItem>
               <FormLabel>Versão da músca</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Link do vídeo"
-                  { ...field }
-                  value={field.value!}
-                />
+                <Input placeholder="Link do vídeo" {...field} value={field.value!} />
               </FormControl>
               <FormDescription>Copie o link de um vídeo do Youtube e cole aqui</FormDescription>
               <FormMessage />
@@ -132,11 +119,7 @@ export function Music({ id }: MusicProps) {
             <FormItem>
               <FormLabel>Cifra</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Link da cifra"
-                  { ...field }
-                  value={field.value!}
-                />
+                <Input placeholder="Link da cifra" {...field} value={field.value!} />
               </FormControl>
               <FormDescription>Copie o link da cifra da música e cole aqui</FormDescription>
               <FormMessage />
@@ -152,7 +135,7 @@ export function Music({ id }: MusicProps) {
               <FormControl>
                 <Textarea
                   placeholder="Adicione a letra da música"
-                  { ...field }
+                  {...field}
                   value={field.value!}
                 />
               </FormControl>
@@ -168,11 +151,7 @@ export function Music({ id }: MusicProps) {
             <FormItem>
               <FormLabel>BPM</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Batidas por minuto"
-                  { ...field }
-                  value={field.value!}
-                />
+                <Input placeholder="Batidas por minuto" {...field} value={field.value!} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -185,11 +164,7 @@ export function Music({ id }: MusicProps) {
             <FormItem>
               <FormLabel>Tempo</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Assinatura da música"
-                  { ...field }
-                  value={field.value!}
-                />
+                <Input placeholder="Assinatura da música" {...field} value={field.value!} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -202,18 +177,16 @@ export function Music({ id }: MusicProps) {
             <FormItem>
               <FormLabel>Tom</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Tom principal"
-                  { ...field }
-                  value={field.value!}
-                />
+                <Input placeholder="Tom principal" {...field} value={field.value!} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">Salvar música</Button>
+        <Button type="submit" className="w-full">
+          Salvar música
+        </Button>
       </form>
     </Form>
-  );
+  )
 }

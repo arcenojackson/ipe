@@ -1,7 +1,7 @@
-import { Dispatch, SetStateAction, useState } from 'react'
 import { submitSignup } from '@/actions/login'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Dispatch, SetStateAction, useState } from 'react'
 
 type Props = {
   setLoginType: Dispatch<SetStateAction<'signin' | 'signup'>>
@@ -12,12 +12,11 @@ export function SignUp({ setLoginType }: Props) {
   const [error, setError] = useState('')
 
   const onSubmit = async (formData: FormData) => {
-    setIsPending(true);
-    const result = await submitSignup(formData);
+    setIsPending(true)
+    const result = await submitSignup(formData)
     setError(result)
-    setIsPending(false);
+    setIsPending(false)
   }
-
 
   return (
     <>
@@ -68,7 +67,7 @@ export function SignUp({ setLoginType }: Props) {
           Entrar
         </Button>
       </form>
-      {error && <span className='text-red-500 text-lg font-bold'>{error}</span>}
+      {error && <span className="text-red-500 text-lg font-bold">{error}</span>}
     </>
   )
 }

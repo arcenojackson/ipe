@@ -1,15 +1,15 @@
-import { Edit, Music, PlusCircle, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Music as MusicComponent } from "@/components/ui/music";
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  DialogTrigger
+} from '@/components/ui/dialog'
+import { Music as MusicComponent } from '@/components/ui/music'
+import { Edit, Music, PlusCircle, Trash2 } from 'lucide-react'
 
 export function Musics() {
   function onAddMusic() {}
@@ -65,5 +65,5 @@ export function Musics() {
         </DialogContent>
       </Dialog>
     </section>
-  );
+  )
 }

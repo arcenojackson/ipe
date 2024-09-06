@@ -12,10 +12,10 @@ export function SignIn({ setLoginType }: Props) {
   const [error, setError] = useState('')
 
   const onSubmit = async (formData: FormData) => {
-    setIsPending(true);
-    const result = await submitSignin(formData);
+    setIsPending(true)
+    const result = await submitSignin(formData)
     setError(result)
-    setIsPending(false);
+    setIsPending(false)
   }
 
   return (
@@ -55,7 +55,7 @@ export function SignIn({ setLoginType }: Props) {
           Criar conta
         </Button>
       </form>
-      {error && <span className='text-red-500 text-lg font-bold'>{error}</span>}
+      {error && <span className="text-red-500 text-lg font-bold">{error}</span>}
     </>
   )
 }

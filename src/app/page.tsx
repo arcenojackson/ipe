@@ -1,5 +1,5 @@
-import { cookies } from 'next/headers'
 import { Login } from '@/components/login'
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 export default async function LogIn() {
