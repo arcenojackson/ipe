@@ -99,25 +99,24 @@ export function MusicEdit({ id, loadData }: MusicProps) {
         method: 'PUT',
         body: JSON.stringify(values)
       })
-      await loadData()
       return postSubmit('✓ Música editada com sucesso!')
     }
     await fetch('/api/musics', {
       method: 'POST',
       body: JSON.stringify(values)
     })
-    await loadData()
-    postSubmit('✓ Música adicionada com sucesso!')
+    form.reset()
+    return postSubmit('✓ Música adicionada com sucesso!')
   }
 
-  function postSubmit(description: string) {
+  async function postSubmit(description: string) {
     toast({
       title: 'Música',
       description,
       variant: 'success',
       duration: 5000
     })
-    form.reset()
+    await loadData()
     setIsLoading(false)
   }
 

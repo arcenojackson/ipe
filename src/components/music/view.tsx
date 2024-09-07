@@ -37,24 +37,35 @@ export function MusicView({ id }: PlayingProps) {
 
   return (
     <section className="flex flex-col gap-4 h-[500px] border-b overflow-x-scroll p-4">
-      <span className="font-bold">Versão:</span>
-      {music?.youtube && (
-        <div className="max-w-80">
-          <YouTube videoId="FnnmK-hOXEM" className="h-[200px]" />
-        </div>
-      )}
-      <span className="font-bold">
-        Cifra:
-        <a href={music?.cipher} target="_blank" rel="noopener noreferrer">
-          <p className="flex font-normal text-sky-700 gap-2">
-            Cifra Club <ExternalLink size={20} />
-          </p>
-        </a>
-      </span>
+      <div className="grid grid-cols-2">
+        <span className="font-bold">
+          Versão:
+          <a href={music?.youtube} target="_blank" rel="noopener noreferrer">
+            <p className="flex font-normal text-sky-700 gap-2">
+              YouTube <ExternalLink size={20} />
+            </p>
+          </a>
+        </span>
+        {/* {music?.youtube && (
+          <div className="">
+            <YouTube videoId="FnnmK-hOXEM" className="h-[200px]" />
+          </div>
+        )} */}
+        <span className="font-bold">
+          Cifra:
+          <a href={music?.cipher} target="_blank" rel="noopener noreferrer">
+            <p className="flex font-normal text-sky-700 gap-2">
+              Cifra Club <ExternalLink size={20} />
+            </p>
+          </a>
+        </span>
+      </div>
       <span className="font-bold">Letra:</span>
-      <textarea disabled rows={20} className="resize-none">
-        {music?.lyrics}
-      </textarea>
+      {music?.lyrics && (
+        <textarea disabled rows={20} className="resize-none">
+          {music.lyrics}
+        </textarea>
+      )}
     </section>
   )
 }
