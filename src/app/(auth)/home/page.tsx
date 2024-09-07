@@ -20,7 +20,6 @@ export default function Home() {
   const [section, setSection] = useState<Section>('agenda')
 
   if (!user?.email) return
-  console.log(user)
 
   function logout() {
     cookies.remove('user')

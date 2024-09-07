@@ -14,6 +14,7 @@ export function SignIn({ setLoginType }: Props) {
   const onSubmit = async (formData: FormData) => {
     setIsPending(true)
     const result = await submitSignin(formData)
+    if (!result) return
     setError(result)
     setIsPending(false)
   }

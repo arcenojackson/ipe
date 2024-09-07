@@ -1,9 +1,9 @@
-import { getMusic } from '@/actions/music'
+import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { Button } from './button'
+import { Button } from '../ui/button'
 import {
   Form,
   FormControl,
@@ -12,45 +12,113 @@ import {
   FormItem,
   FormLabel,
   FormMessage
-} from './form'
-import { Input } from './input'
-import { Textarea } from './textarea'
+} from '../ui/form'
+import { Input } from '../ui/input'
+import { Textarea } from '../ui/textarea'
 
 const formSchema = z.object({
   title: z.string().min(2),
   artist: z.string().min(2),
   obs: z.string().nullable().optional(),
-  ytUrl: z.string().nullable(),
+  youtube: z.string().nullable(),
   cipher: z.string(),
   lyrics: z.string().nullable().optional(),
-  bpm: z.number().nullable().optional(),
+  bpm: z.string().nullable().optional(),
   tempo: z.string().nullable().optional(),
   tone: z.string()
 })
 
+type Fields =
+  | 'title'
+  | 'artist'
+  | 'obs'
+  | 'youtube'
+  | 'cipher'
+  | 'lyrics'
+  | 'bpm'
+  | 'tone'
+  | 'tempo'
+
 type MusicProps = {
   id?: string
+  loadData: () => Promise<void>
 }
 
-export function Music({ id }: MusicProps) {
-  const [currentMusic, setCurrentMusic] = useState(null)
+export function MusicEdit({ id, loadData }: MusicProps) {
+  const [isLoading, setIsLoading] = useState(false)
+  const { toast } = useToast()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      tempo: '4/4'
+      title: '',
+      artist: '',
+      obs: '',
+      youtube: '',
+      cipher: '',
+      lyrics: '',
+      bpm: '0',
+      tempo: '4/4',
+      tone: ''
     }
   })
 
   useEffect(() => {
     if (!id) return
     ;(async () => {
-      await getMusic(id)
-      form.setValue('artist', 'Teste')
+      try {
+        const response = await fetch(`/api/musics/${id}`)
+        const result = await response.json()
+        if (response.status !== 200) {
+          toast({
+            title: 'Música',
+            description: result.message,
+            duration: 3000,
+            variant: 'destructive'
+          })
+          return
+        }
+        const music = result.data
+        for (const key in music) {
+          const field: Fields = key as Fields
+          if (field === 'bpm') {
+            form.setValue(field, String(music[field]))
+            continue
+          }
+          form.setValue(field, music[field])
+        }
+      } catch (error) {
+        console.log(error)
+      }
     })()
   }, [])
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true)
+    if (id) {
+      await fetch(`/api/musics/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(values)
+      })
+      await loadData()
+      return postSubmit('✓ Música editada com sucesso!')
+    }
+    await fetch('/api/musics', {
+      method: 'POST',
+      body: JSON.stringify(values)
+    })
+    await loadData()
+    postSubmit('✓ Música adicionada com sucesso!')
+  }
+
+  function postSubmit(description: string) {
+    toast({
+      title: 'Música',
+      description,
+      variant: 'success',
+      duration: 5000
+    })
+    form.reset()
+    setIsLoading(false)
   }
 
   return (
@@ -100,7 +168,7 @@ export function Music({ id }: MusicProps) {
         />
         <FormField
           control={form.control}
-          name="ytUrl"
+          name="youtube"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Versão da músca</FormLabel>
@@ -183,7 +251,7 @@ export function Music({ id }: MusicProps) {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" disabled={isLoading} isLoading={isLoading}>
           Salvar música
         </Button>
       </form>
