@@ -17,7 +17,7 @@ export async function submitSignin(formData: FormData) {
   const password = formData.get('password')?.toString()
   if (!user.email || !password) return rollback('Campos inválidos')
   try {
-    const response = await fetch('http://localhost:3000/api/signin', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/signin`, {
       method: 'POST',
       body: JSON.stringify({ email: user.email, password })
     })
@@ -44,7 +44,7 @@ export async function submitSignup(formData: FormData) {
   if (!user.name || !user.email || !password || !confirmPass) return rollback('Campos inválidos')
   if (password !== confirmPass) return rollback('Senhas precisam ser iguais')
   try {
-    const response = await fetch('http://localhost:3000/api/signup', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/signup`, {
       method: 'POST',
       body: JSON.stringify({ name: user.name, email: user.email, password })
     })

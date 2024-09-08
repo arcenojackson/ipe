@@ -15,7 +15,6 @@ export async function POST(req: Request) {
       VALUES (${name}, ${email}, ${passwordHash})
       RETURNING *;
     `
-    console.log(result[0])
     const [userCreated] = result
     const user = {
       id: userCreated.id,
