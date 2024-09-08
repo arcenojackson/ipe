@@ -22,7 +22,9 @@ Card.Icon = ({ children, bgColor = 'bg-emerald-600' }: IconProps) => {
 
 Card.Content = function ({ children }: CardProps) {
   return (
-    <div className="flex flex-1 flex-col px-2 justify-center gap-2 text-slate-50">{children}</div>
+    <div className="flex flex-1 flex-col items-start justify-center px-2 gap-2 text-slate-50">
+      {children}
+    </div>
   )
 }
 

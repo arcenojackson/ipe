@@ -1,14 +1,7 @@
 import { db } from '@/database/db'
 import { comparePassword, generatePasswordHash } from '@/lib/hashing'
+import { User } from '@/types/user'
 import { NextResponse } from 'next/server'
-
-type User = {
-  id: string
-  name: string
-  email: string
-  password: string
-  createdAt: Date
-}
 
 export async function POST(req: Request) {
   try {

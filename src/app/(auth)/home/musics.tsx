@@ -27,11 +27,13 @@ import { useEffect, useState } from 'react'
 
 import { Loading } from '@/components/ui/loading'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { useToast } from '@/hooks/use-toast'
 import { Music } from '@/types/music'
 
 export function Musics() {
   const [isLoading, setIsLoading] = useState(true)
   const [musics, setMusics] = useState<Music[]>([])
+  const { toast } = useToast()
 
   useEffect(() => {
     ;(async () => await loadData())()
@@ -45,6 +47,12 @@ export function Musics() {
       setIsLoading(false)
     } catch (error) {
       console.log(error)
+      setIsLoading(false)
+      toast({
+        title: 'Músicas',
+        description: 'Erro ao listar músicas',
+        variant: 'destructive'
+      })
     }
   }
 
@@ -62,7 +70,7 @@ export function Musics() {
         {musics.map((music) => (
           <Card height="h-24">
             <Dialog key={music.id}>
-              <DialogTrigger className="w-full flex items-center justify-center">
+              <DialogTrigger className="w-full flex">
                 <Card.Icon bgColor="bg-purple-800">
                   <MusicIcon size={28} color="white" />
                 </Card.Icon>

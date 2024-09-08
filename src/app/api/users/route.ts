@@ -1,14 +1,14 @@
 import { db } from '@/database/db'
+import { User } from '@/types/user'
 import { NextResponse } from 'next/server'
 
-type User = {
-  name: string
-  email: string
-}
-
 export async function GET() {
-  await db.connect()
-  const { rows } = await db.sql<User>`SELECT name, email FROM users`
-  await db.end()
-  return NextResponse.json({ message: 'Users list.', data: rows }, { status: 200 })
+  try {
+    const { rows } = await db.sql<Partial<User>>`SELECT id, name, email FROM users`
+    if (!rows.length)
+      return NextResponse.json({ message: 'Usuários não encontrados.' }, { status: 404 })
+    return NextResponse.json({ message: 'Lista de usuários.', data: rows }, { status: 200 })
+  } catch (error) {
+    return NextResponse.json({ message: 'Erro interno.' }, { status: 500 })
+  }
 }
