@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "yarn biome check --write",
     "prepare": "husky",
-    "commit": "git add . && cz"
+    "commit": "yarn lint && git add . && cz"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

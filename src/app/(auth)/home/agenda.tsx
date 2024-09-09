@@ -5,8 +5,7 @@ import { Calendar, ThumbsDown, ThumbsUp } from 'lucide-react'
 export function Agenda() {
   return (
     <section className="w-full p-4">
-      <h3 className="text-xl font-bold">AGENDA</h3>
-      <div className="w-full h-[500px] p-4 flex flex-col gap-4 mt-4 rounded-lg bg-slate-700 overflow-y-scroll">
+      <div className="w-full h-[500px] p-4 flex flex-col gap-4 rounded-lg bg-slate-700 overflow-y-scroll">
         <Card>
           <Card.Icon>
             <Calendar size={28} color="white" />

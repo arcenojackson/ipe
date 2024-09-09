@@ -54,7 +54,6 @@ export function People({ currentUser }: PeopleProps) {
 
   return (
     <section className="w-full flex flex-col gap-4 p-4">
-      <h3 className="text-xl font-bold">PESSOAS</h3>
       <div className="w-full h-[500px] p-4 flex flex-col items-center gap-4 rounded-lg bg-slate-700 overflow-y-scroll">
         {isLoading && <Loading />}
         {users.map((user) => (

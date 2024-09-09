@@ -28,42 +28,49 @@ export default function Home() {
     router.replace('/')
   }
 
+  const pageView = {
+    agenda: 'AGENDA',
+    planning: 'PLANEJAR',
+    people: 'PESSOAS',
+    music: 'MÚSICAS'
+  }
+
   return (
     <main className="w-full h-screen">
-      <header className="w-full h-60 flex flex-col items-center justify-center gap-4 bg-slate-800">
-        {/* <h1 className="text-xl text-slate-100 font-bold">Igreja Presbiteriana do Estreito</h1> */}
-        <span className="flex items-center justify-center gap-8 text-xl text-slate-100 font-regular">
-          <Image alt="Logo da igreja presbiteriana do estreito" src={Logo} height={80} />
-          Olá {user.name}!
-        </span>
-        <div className="flex gap-4 mt-4">
-          <Button
-            onClick={() => setSection('agenda')}
-            variant={section === 'agenda' ? 'default' : 'secondary'}
-          >
-            <CalendarCheck size={18} />
-          </Button>
-          <Button
-            onClick={() => setSection('planning')}
-            variant={section === 'planning' ? 'default' : 'secondary'}
-          >
-            <CalendarCogIcon size={18} />
-          </Button>
-          <Button
-            onClick={() => setSection('people')}
-            variant={section === 'people' ? 'default' : 'secondary'}
-          >
-            <Users size={18} />
-          </Button>
-          <Button
-            onClick={() => setSection('music')}
-            variant={section === 'music' ? 'default' : 'secondary'}
-          >
-            <Music size={18} />
-          </Button>
-          <Button variant="secondary" onClick={logout}>
-            <LogOut size={18} />
-          </Button>
+      <header className="w-full h-60 flex items-center justify-around bg-slate-800">
+        <Image alt="Logo da igreja presbiteriana do estreito" src={Logo} height={100} />
+        <div className="flex flex-col items-center justify-center gap-6 text-slate-100">
+          <h1 className="text-xl">Olá {user.name}!</h1>
+          <div className="flex gap-4">
+            <Button
+              onClick={() => setSection('agenda')}
+              variant={section === 'agenda' ? 'default' : 'secondary'}
+            >
+              <CalendarCheck size={18} />
+            </Button>
+            <Button
+              onClick={() => setSection('planning')}
+              variant={section === 'planning' ? 'default' : 'secondary'}
+            >
+              <CalendarCogIcon size={18} />
+            </Button>
+            <Button
+              onClick={() => setSection('people')}
+              variant={section === 'people' ? 'default' : 'secondary'}
+            >
+              <Users size={18} />
+            </Button>
+            <Button
+              onClick={() => setSection('music')}
+              variant={section === 'music' ? 'default' : 'secondary'}
+            >
+              <Music size={18} />
+            </Button>
+            <Button variant="secondary" onClick={logout}>
+              <LogOut size={18} />
+            </Button>
+          </div>
+          <span className="text-xl">{pageView[section]}</span>
         </div>
       </header>
       <Show>
