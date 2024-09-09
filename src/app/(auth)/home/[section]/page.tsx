@@ -15,11 +15,15 @@ import { Planning } from './planning'
 
 type Section = 'agenda' | 'planning' | 'people' | 'music'
 
-export default function Home() {
+type HomeProps = {
+  params: { section: Section }
+}
+
+export default function Home({ params }: HomeProps) {
   const router = useRouter()
   const cookies = useCookies()
   const user = JSON.parse(cookies.get('user') ?? '{}')
-  const [section, setSection] = useState<Section>('agenda')
+  const [section, setSection] = useState<Section>(params.section ?? 'agenda')
 
   if (!user?.email) return
 

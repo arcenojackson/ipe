@@ -27,12 +27,14 @@ import { useToast } from '@/hooks/use-toast'
 import { Event } from '@/types/event'
 import { format } from 'date-fns'
 import { Calendar, Edit, PlusCircle, Trash2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 
 export function Planning() {
   const [isLoading, setIsLoading] = useState(true)
   const [events, setEvents] = useState<Event[]>([])
   const { toast } = useToast()
+  const { push } = useRouter()
 
   useEffect(() => {
     ;(async () => await loadData())()
@@ -68,7 +70,7 @@ export function Planning() {
         {isLoading && <Loading />}
         {events.map((event) => (
           <Card height="h-24" bgColor="bg-slate-800" key={event.id}>
-            <div className="w-full flex">
+            <div className="w-full flex" onClick={() => push(`/event/${event.id}`)}>
               <Card.Icon>
                 <Calendar size={28} color="white" fill="white" />
               </Card.Icon>

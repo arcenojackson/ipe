@@ -30,7 +30,7 @@ export async function submitSignin(formData: FormData) {
     return rollback(error.message)
   }
   cookies().set('user', JSON.stringify(user))
-  redirect('/home')
+  redirect('/home/agenda')
 }
 
 export async function submitSignup(formData: FormData) {
@@ -55,5 +55,5 @@ export async function submitSignup(formData: FormData) {
     return rollback(error.message)
   }
   cookies().set('user', JSON.stringify(user))
-  redirect('/home')
+  redirect('/home/agenda')
 }

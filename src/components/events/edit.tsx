@@ -8,18 +8,9 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button } from '../ui/button'
 import { Calendar } from '../ui/calendar'
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '../ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
-import { Textarea } from '../ui/textarea'
 
 const formSchema = z.object({
   name: z.string().min(2),
@@ -150,6 +141,7 @@ export function EventEdit({ id, loadData }: EventProps) {
                       mode="single"
                       selected={field.value}
                       onSelect={field.onChange}
+                      disabled={(date) => date < new Date()}
                       initialFocus
                     />
                   </PopoverContent>
