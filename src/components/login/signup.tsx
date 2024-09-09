@@ -1,6 +1,9 @@
 import { submitSignup } from '@/actions/login'
+import Logo from '@/app/assets/logo.png'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useToast } from '@/hooks/use-toast'
+import Image from 'next/image'
 import { Dispatch, SetStateAction, useState } from 'react'
 
 type Props = {
@@ -8,13 +11,27 @@ type Props = {
 }
 
 export function SignUp({ setLoginType }: Props) {
+  const { toast } = useToast()
   const [isPending, setIsPending] = useState(false)
-  const [error, setError] = useState('')
 
   const onSubmit = async (formData: FormData) => {
-    setIsPending(true)
-    const result = await submitSignup(formData)
-    setError(result)
+    try {
+      setIsPending(true)
+      const result = await submitSignup(formData)
+      if (!result) return
+      toast({
+        title: 'Cadastro',
+        description: result,
+        variant: 'destructive'
+      })
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: 'Cadastro',
+        description: 'Falhar ao criar conta',
+        variant: 'destructive'
+      })
+    }
     setIsPending(false)
   }
 
@@ -22,9 +39,9 @@ export function SignUp({ setLoginType }: Props) {
     <>
       <form
         action={onSubmit}
-        className="flex flex-col max-w-96 items-center justify-center gap-8 p-8 border rounded-xl bg-slate-500"
+        className="flex flex-col max-w-[400px] w-full items-center justify-center gap-8 p-8 border rounded-xl bg-slate-500"
       >
-        <h1 className="text-2xl text-slate-100 font-extrabold">IPE</h1>
+        <Image alt="Logo da igreja presbiteriana do estreito" src={Logo} height={150} />
         <Input
           type="text"
           name="name"
@@ -67,7 +84,6 @@ export function SignUp({ setLoginType }: Props) {
           Entrar
         </Button>
       </form>
-      {error && <span className="text-red-500 text-lg font-bold">{error}</span>}
     </>
   )
 }

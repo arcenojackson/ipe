@@ -1,9 +1,11 @@
 'use client'
 
+import Logo from '@/app/assets/logo.png'
 import { Show } from '@/components/show'
 import { Button } from '@/components/ui/button'
 import { CalendarCheck, CalendarCogIcon, LogOut, Music, Users } from 'lucide-react'
 import { useCookies } from 'next-client-cookies'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { Agenda } from './agenda'
@@ -29,8 +31,11 @@ export default function Home() {
   return (
     <main className="w-full h-screen">
       <header className="w-full h-60 flex flex-col items-center justify-center gap-4 bg-slate-800">
-        <h1 className="text-xl text-slate-100 font-bold">Igreja Presbiteriana do Estreito</h1>
-        <h3 className="text-base text-slate-300 font-regular">Olá {user.name}!</h3>
+        {/* <h1 className="text-xl text-slate-100 font-bold">Igreja Presbiteriana do Estreito</h1> */}
+        <span className="flex items-center justify-center gap-8 text-xl text-slate-100 font-regular">
+          <Image alt="Logo da igreja presbiteriana do estreito" src={Logo} height={80} />
+          Olá {user.name}!
+        </span>
         <div className="flex gap-4 mt-4">
           <Button
             onClick={() => setSection('agenda')}

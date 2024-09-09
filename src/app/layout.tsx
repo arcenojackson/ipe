@@ -8,7 +8,20 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'IPE',
-  description: 'Igreja Presbiteriana do Estreito'
+  description: 'Igreja Presbiteriana do Estreito',
+  generator: 'Next.js',
+  manifest: '/manifest.json',
+  keywords: ['ipe', 'igreja', 'presbiteriana', 'ipb'],
+  authors: [
+    {
+      name: 'Jackson Arceno',
+      url: 'https://linkedin.com/in/jacksonfa'
+    }
+  ],
+  icons: [
+    { rel: 'apple-touch-icon', url: 'icons/logo-128' },
+    { rel: 'icon', url: 'icons/icon-128.png' }
+  ]
 }
 
 export default function RootLayout({
