@@ -1,9 +1,9 @@
 {
   "name": "Igreja Presbiteriana do Estreito",
   "short_name": "IPE",
-  "theme_color": "#1e293b",
-  "background_color": "#f1f5f9",
-  "display": "fullscreen",
+  "theme_color": "#f1f5f9",
+  "background_color": "#1e293b",
+  "display": "minimal-ui",
   "orientation": "natural",
   "scope": "/",
   "start_url": "/",
