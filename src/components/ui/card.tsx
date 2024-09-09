@@ -3,6 +3,7 @@ import { ReactNode } from 'react'
 type CardProps = {
   children: ReactNode
   height?: string
+  bgColor?: string
 }
 
 type IconProps = {
@@ -10,9 +11,11 @@ type IconProps = {
   bgColor?: string
 }
 
-function Card({ children, height = 'h-32' }: CardProps) {
+function Card({ children, height = 'h-32', bgColor }: CardProps) {
   return (
-    <div className={`w-full ${height} p-4 flex border rounded-lg cursor-pointer`}>{children}</div>
+    <div className={`w-full ${height} p-4 flex rounded-lg cursor-pointer ${bgColor}`}>
+      {children}
+    </div>
   )
 }
 

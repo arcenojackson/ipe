@@ -26,7 +26,7 @@ type WhenProps = {
 }
 
 Show.When = function When({ isTrue, children }: WhenProps) {
-  return isTrue && <>{children}</>
+  return isTrue && children
 }
 
 type ElseProps = {
@@ -35,6 +35,6 @@ type ElseProps = {
 }
 
 Show.Else = function Else({ render, children }: ElseProps) {
-  return <>{render || children}</>
+  return render || children
 }
 export { Show }

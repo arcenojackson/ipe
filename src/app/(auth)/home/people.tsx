@@ -10,10 +10,18 @@ import {
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
 import { Card } from '@/components/ui/card'
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@/components/ui/dialog'
 import { Loading } from '@/components/ui/loading'
 import { useToast } from '@/hooks/use-toast'
 import { User } from '@/types/user'
-import { Trash2, User2 } from 'lucide-react'
+import { LucideUserRoundCog, Trash2, User2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 type PeopleProps = {
@@ -53,11 +61,11 @@ export function People({ currentUser }: PeopleProps) {
   }
 
   return (
-    <section className="w-full flex flex-col gap-4 p-4">
-      <div className="w-full h-[500px] p-4 flex flex-col items-center gap-4 rounded-lg bg-slate-700 overflow-y-scroll">
+    <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 items-center gap-4 p-4 overflow-y-scroll">
         {isLoading && <Loading />}
         {users.map((user) => (
-          <Card height="h-24" key={user.id}>
+          <Card height="h-24" bgColor="bg-slate-800" key={user.id}>
             <Card.Icon bgColor="bg-purple-800">
               <User2 size={28} color="white" />
             </Card.Icon>
@@ -90,6 +98,21 @@ export function People({ currentUser }: PeopleProps) {
           </Card>
         ))}
       </div>
-    </section>
+      <Dialog>
+        <DialogTrigger className="w-full p-4">
+          <div className="h-12 flex items-center justify-center bg-slate-950 rounded-lg text-slate-200">
+            <LucideUserRoundCog className="mr-4" />
+            Gerenciar equipes
+          </div>
+        </DialogTrigger>
+        <DialogContent className="rounded-xl">
+          <DialogHeader>
+            <DialogTitle>Gerenciar equipes</DialogTitle>
+          </DialogHeader>
+
+          <DialogFooter></DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
   )
 }

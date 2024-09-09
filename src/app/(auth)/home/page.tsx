@@ -36,57 +36,56 @@ export default function Home() {
   }
 
   return (
-    <main className="w-full h-screen">
-      <header className="w-full h-60 flex items-center justify-around bg-slate-800">
-        <Image alt="Logo da igreja presbiteriana do estreito" src={Logo} height={100} />
-        <div className="flex flex-col items-center justify-center gap-6 text-slate-100">
-          <h1 className="text-xl">Olá {user.name}!</h1>
-          <div className="flex gap-4">
-            <Button
-              onClick={() => setSection('agenda')}
-              variant={section === 'agenda' ? 'default' : 'secondary'}
-            >
-              <CalendarCheck size={18} />
-            </Button>
-            <Button
-              onClick={() => setSection('planning')}
-              variant={section === 'planning' ? 'default' : 'secondary'}
-            >
-              <CalendarCogIcon size={18} />
-            </Button>
-            <Button
-              onClick={() => setSection('people')}
-              variant={section === 'people' ? 'default' : 'secondary'}
-            >
-              <Users size={18} />
-            </Button>
-            <Button
-              onClick={() => setSection('music')}
-              variant={section === 'music' ? 'default' : 'secondary'}
-            >
-              <Music size={18} />
-            </Button>
-            <Button variant="secondary" onClick={logout}>
-              <LogOut size={18} />
-            </Button>
-          </div>
-          <span className="text-xl">{pageView[section]}</span>
+    <main className="w-full h-screen flex flex-col">
+      <header className="w-full h-52 flex flex-col items-center gap-4 py-4 bg-slate-800 text-slate-100">
+        <Image alt="Logo da igreja presbiteriana do estreito" src={Logo} height={80} />
+        <div className="flex gap-2">
+          <Button
+            onClick={() => setSection('agenda')}
+            variant={section === 'agenda' ? 'default' : 'secondary'}
+          >
+            <CalendarCheck size={18} />
+          </Button>
+          <Button
+            onClick={() => setSection('planning')}
+            variant={section === 'planning' ? 'default' : 'secondary'}
+          >
+            <CalendarCogIcon size={18} />
+          </Button>
+          <Button
+            onClick={() => setSection('people')}
+            variant={section === 'people' ? 'default' : 'secondary'}
+          >
+            <Users size={18} />
+          </Button>
+          <Button
+            onClick={() => setSection('music')}
+            variant={section === 'music' ? 'default' : 'secondary'}
+          >
+            <Music size={18} />
+          </Button>
+          <Button variant="destructive" onClick={logout}>
+            <LogOut size={18} />
+          </Button>
         </div>
+        <span className="text-lg">{pageView[section]}</span>
       </header>
-      <Show>
-        <Show.When isTrue={section === 'agenda'}>
-          <Agenda />
-        </Show.When>
-        <Show.When isTrue={section === 'planning'}>
-          <Planning />
-        </Show.When>
-        <Show.When isTrue={section === 'people'}>
-          <People currentUser={user} />
-        </Show.When>
-        <Show.When isTrue={section === 'music'}>
-          <Musics />
-        </Show.When>
-      </Show>
+      <section className="w-full flex flex-1 bg-slate-500">
+        <Show>
+          <Show.When isTrue={section === 'agenda'}>
+            <Agenda />
+          </Show.When>
+          <Show.When isTrue={section === 'planning'}>
+            <Planning />
+          </Show.When>
+          <Show.When isTrue={section === 'people'}>
+            <People currentUser={user} />
+          </Show.When>
+          <Show.When isTrue={section === 'music'}>
+            <Musics />
+          </Show.When>
+        </Show>
+      </section>
     </main>
   )
 }

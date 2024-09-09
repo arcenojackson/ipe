@@ -23,7 +23,7 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog'
 import { Music as MusicIcon, PlusCircle, Trash2 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { Loading } from '@/components/ui/loading'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -39,7 +39,7 @@ export function Musics() {
     ;(async () => await loadData())()
   }, [])
 
-  async function loadData() {
+  const loadData = useCallback(async () => {
     try {
       const response = await fetch('/api/musics')
       const result = await response.json()
@@ -54,7 +54,7 @@ export function Musics() {
         variant: 'destructive'
       })
     }
-  }
+  }, [musics])
 
   async function onDeleteMusic(id: string) {
     await fetch(`/api/musics/${id}`, { method: 'DELETE' })
@@ -63,11 +63,11 @@ export function Musics() {
   }
 
   return (
-    <section className="w-full flex flex-col gap-4 p-4">
-      <div className="w-full h-[500px] p-4 flex flex-col items-center gap-4 rounded-lg bg-slate-700 overflow-y-scroll">
+    <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 items-center gap-4 p-4 overflow-y-scroll">
         {isLoading && <Loading />}
         {musics.map((music) => (
-          <Card height="h-24">
+          <Card height="h-24" bgColor="bg-slate-800">
             <Dialog key={music.id}>
               <DialogTrigger className="w-full flex">
                 <Card.Icon bgColor="bg-purple-800">
@@ -124,8 +124,8 @@ export function Musics() {
         ))}
       </div>
       <Dialog>
-        <DialogTrigger>
-          <div className="w-full h-12 flex items-center justify-center bg-slate-950 rounded-lg text-slate-200">
+        <DialogTrigger className="w-full p-4">
+          <div className="h-12 flex items-center justify-center bg-slate-950 rounded-lg text-slate-200">
             <PlusCircle className="mr-4" />
             Adicionar música
           </div>
@@ -138,6 +138,6 @@ export function Musics() {
           <DialogFooter></DialogFooter>
         </DialogContent>
       </Dialog>
-    </section>
+    </div>
   )
 }

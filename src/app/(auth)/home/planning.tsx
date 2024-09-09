@@ -27,7 +27,7 @@ import { useToast } from '@/hooks/use-toast'
 import { Event } from '@/types/event'
 import { format } from 'date-fns'
 import { Calendar, Edit, PlusCircle, Trash2 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 export function Planning() {
   const [isLoading, setIsLoading] = useState(true)
@@ -38,7 +38,7 @@ export function Planning() {
     ;(async () => await loadData())()
   }, [])
 
-  async function loadData() {
+  const loadData = useCallback(async () => {
     try {
       const response = await fetch('/api/events')
       const result = await response.json()
@@ -54,7 +54,7 @@ export function Planning() {
         variant: 'destructive'
       })
     }
-  }
+  }, [events])
 
   async function onDeleteEvent(id: string) {
     await fetch(`/api/events/${id}`, { method: 'DELETE' })
@@ -63,25 +63,24 @@ export function Planning() {
   }
 
   return (
-    <section className="w-full flex flex-col gap-4 p-4">
-      <div className="w-full h-[500px] p-4 flex flex-col items-center gap-4 rounded-lg bg-slate-700 overflow-y-scroll">
+    <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 items-center gap-4 p-4 overflow-y-scroll">
         {isLoading && <Loading />}
         {events.map((event) => (
-          <Card height="h-24" key={event.id}>
+          <Card height="h-24" bgColor="bg-slate-800" key={event.id}>
             <div className="w-full flex">
               <Card.Icon>
                 <Calendar size={28} color="white" fill="white" />
               </Card.Icon>
               <Card.Content>
-                <span>{event.name}</span>
-                <span></span>
+                <span className="text-sm">{event.name}</span>
                 <span className="text-xs text-slate-300">{format(event.date, "dd 'de' MMMM")}</span>
               </Card.Content>
             </div>
             <Card.Actions>
               <Dialog>
                 <DialogTrigger>
-                  <Edit size={30} color="white" />
+                  <Edit size={26} color="white" />
                 </DialogTrigger>
                 <DialogContent className="rounded-xl">
                   <DialogHeader>
@@ -93,7 +92,7 @@ export function Planning() {
               </Dialog>
               <AlertDialog>
                 <AlertDialogTrigger>
-                  <Trash2 size={30} color="red" />
+                  <Trash2 size={26} color="red" />
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
@@ -115,8 +114,8 @@ export function Planning() {
         ))}
       </div>
       <Dialog>
-        <DialogTrigger>
-          <div className="w-full h-12 flex items-center justify-center bg-slate-950 rounded-lg text-slate-200">
+        <DialogTrigger className="w-full p-4">
+          <div className="h-12 flex items-center justify-center bg-slate-950 rounded-lg text-slate-200">
             <PlusCircle className="mr-4" />
             Adicionar evento
           </div>
@@ -129,6 +128,6 @@ export function Planning() {
           <DialogFooter></DialogFooter>
         </DialogContent>
       </Dialog>
-    </section>
+    </div>
   )
 }
