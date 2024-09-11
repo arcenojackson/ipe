@@ -79,7 +79,7 @@ export function Musics() {
                   <span className="text-xs text-slate-300">{music.artist}</span>
                 </Card.Content>
               </DialogTrigger>
-              <DialogContent className="rounded-xl">
+              <DialogContent className="w-full rounded-xl">
                 <DialogHeader>
                   <DialogTitle>{music.title}</DialogTitle>
                   <DialogDescription>{music.artist}</DialogDescription>

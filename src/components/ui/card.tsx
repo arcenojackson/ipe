@@ -4,6 +4,7 @@ type CardProps = {
   children: ReactNode
   height?: string
   bgColor?: string
+  rounded?: string
 }
 
 type IconProps = {
@@ -11,9 +12,9 @@ type IconProps = {
   bgColor?: string
 }
 
-function Card({ children, height = 'h-32', bgColor }: CardProps) {
+function Card({ children, height = 'h-32', bgColor, rounded = 'rounded-lg' }: CardProps) {
   return (
-    <div className={`w-full ${height} p-4 flex rounded-lg cursor-pointer ${bgColor}`}>
+    <div className={`w-full ${height} p-4 flex cursor-pointer ${bgColor} ${rounded}`}>
       {children}
     </div>
   )

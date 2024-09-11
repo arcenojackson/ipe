@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 export async function GET() {
   try {
     const { rows } = await db.sql`
-      SELECT id, title, artist FROM musics ORDER BY title ASC;
+      SELECT id, title, artist, tone FROM musics ORDER BY title ASC;
     `
     return NextResponse.json({ message: 'OK', data: rows }, { status: 200 })
   } catch (error) {

@@ -1,8 +1,9 @@
 import { toast } from '@/hooks/use-toast'
 import { Music } from '@/types/music'
-import { ExternalLink } from 'lucide-react'
+import { ExternalLink, Fullscreen } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import YouTube from 'react-youtube'
+import { Button } from '../ui/button'
 
 type PlayingProps = {
   id?: string
@@ -10,6 +11,7 @@ type PlayingProps = {
 
 export function MusicView({ id }: PlayingProps) {
   const [music, setMusic] = useState<Music | null>(null)
+  const [fullscreen, setFullscreen] = useState(false)
 
   useEffect(() => {
     if (!id) return
@@ -61,11 +63,18 @@ export function MusicView({ id }: PlayingProps) {
         </span>
       </div>
       <span className="font-bold">Letra:</span>
-      {music?.lyrics && (
-        <textarea disabled rows={20} className="resize-none">
-          {music.lyrics}
-        </textarea>
-      )}
+      <div
+        className={`flex flex-col gap-2 ${fullscreen ? 'fixed top-0 left-0 bottom-0 w-full h-full px-4 z-50 bg-white' : ''}`}
+      >
+        <Button onClick={() => setFullscreen(!fullscreen)}>
+          {fullscreen ? 'Sair da tela cheia' : 'Tela cheia'}
+        </Button>
+        {music?.lyrics && (
+          <textarea disabled rows={20} className="resize-none ">
+            {music.lyrics}
+          </textarea>
+        )}
+      </div>
     </section>
   )
 }

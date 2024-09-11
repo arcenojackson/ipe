@@ -48,8 +48,8 @@ export async function createEventContents() {
     CREATE TABLE events_contents (
       id uuid DEFAULT gen_random_uuid(),
       event_id uuid NOT NULL,
-      people uuid [],
-      musics uuid [],
+      people JSONB,
+      steps JSONB,
       PRIMARY KEY (id),
       CONSTRAINT fk_event
         FOREIGN KEY(event_id)
