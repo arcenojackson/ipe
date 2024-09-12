@@ -26,12 +26,23 @@ import { Music as MusicIcon, PlusCircle, Trash2 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 
 import { Loading } from '@/components/ui/loading'
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger
+} from '@/components/ui/sheet'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useToast } from '@/hooks/use-toast'
 import { Music } from '@/types/music'
+import { Checkbox } from '@radix-ui/react-checkbox'
 
 export function Musics() {
   const [isLoading, setIsLoading] = useState(true)
+  const [isAddOpen, setIsAddOpen] = useState(false)
   const [musics, setMusics] = useState<Music[]>([])
   const { toast } = useToast()
 
@@ -79,13 +90,13 @@ export function Musics() {
                   <span className="text-xs text-slate-300">{music.artist}</span>
                 </Card.Content>
               </DialogTrigger>
-              <DialogContent className="w-full rounded-xl">
+              <DialogContent className="rounded-xl">
                 <DialogHeader>
                   <DialogTitle>{music.title}</DialogTitle>
                   <DialogDescription>{music.artist}</DialogDescription>
                 </DialogHeader>
                 <Tabs defaultValue="view">
-                  <TabsList className="w-full">
+                  <TabsList className="grid grid-cols-2">
                     <TabsTrigger value="view">Visualizar</TabsTrigger>
                     <TabsTrigger value="edit">Editar</TabsTrigger>
                   </TabsList>
@@ -96,7 +107,6 @@ export function Musics() {
                     <MusicEdit id={music.id} loadData={loadData} />
                   </TabsContent>
                 </Tabs>
-                <DialogFooter></DialogFooter>
               </DialogContent>
             </Dialog>
             <Card.Actions>
@@ -123,21 +133,21 @@ export function Musics() {
           </Card>
         ))}
       </div>
-      <Dialog>
-        <DialogTrigger className="w-full p-4">
-          <div className="h-12 flex items-center justify-center bg-slate-950 rounded-lg text-slate-200">
+      <Sheet open={isAddOpen} onOpenChange={setIsAddOpen}>
+        <SheetTrigger className="w-full flex gap-4 p-4">
+          <div className="w-full h-12 flex items-center justify-center bg-slate-950 rounded-lg text-slate-200">
             <PlusCircle className="mr-4" />
             Adicionar música
           </div>
-        </DialogTrigger>
-        <DialogContent className="rounded-xl">
-          <DialogHeader>
-            <DialogTitle>Nova música</DialogTitle>
-          </DialogHeader>
-          <MusicEdit loadData={loadData} />
-          <DialogFooter></DialogFooter>
-        </DialogContent>
-      </Dialog>
+        </SheetTrigger>
+        <SheetContent side="bottom" className="flex flex-col gap-4 mx-4 py-10 rounded-t-lg">
+          <SheetHeader>
+            <SheetTitle>Nova música</SheetTitle>
+          </SheetHeader>
+          <MusicEdit loadData={loadData} setModalClose={() => setIsAddOpen(false)} />
+          <SheetFooter></SheetFooter>
+        </SheetContent>
+      </Sheet>
     </div>
   )
 }

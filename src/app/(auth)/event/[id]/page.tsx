@@ -494,7 +494,7 @@ export default function Event({ params }: EventProps) {
               </Sheet>
             </TabsContent>
             <TabsContent value="team" className="flex-1 p-4 overflow-auto rounded-lg bg-slate-800">
-              <div className="h-[calc(100vh-300px)] overflow-scroll w-full flex flex-col gap-1 py-4">
+              <div className="h-[calc(100vh-300px)] overflow-scroll w-full flex flex-col gap-1 pb-4">
                 {users
                   .filter((user) => people.includes(user.id))
                   .map((user) => (
@@ -524,7 +524,7 @@ export default function Event({ params }: EventProps) {
                   ))}
               </div>
               <Sheet open={isAddPeopleOpen} onOpenChange={setIsAddPeopleOpen}>
-                <SheetTrigger className="w-full flex gap-4 p-4">
+                <SheetTrigger className="w-full flex gap-4 py-4">
                   <div className="w-full flex items-center justify-center gap-4 p-4 rounded-lg bg-slate-100 text-slate-900">
                     <PlusCircle />
                     Adicionar pessoas

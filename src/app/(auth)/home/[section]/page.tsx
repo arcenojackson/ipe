@@ -77,7 +77,7 @@ export default function Home({ params }: HomeProps) {
       <section className="w-full flex flex-1 bg-slate-500">
         <Show>
           <Show.When isTrue={section === 'agenda'}>
-            <Agenda />
+            <Agenda currentUser={user} />
           </Show.When>
           <Show.When isTrue={section === 'planning'}>
             <Planning />

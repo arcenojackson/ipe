@@ -19,6 +19,15 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog'
 import { Loading } from '@/components/ui/loading'
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger
+} from '@/components/ui/sheet'
 import { useToast } from '@/hooks/use-toast'
 import { User } from '@/types/user'
 import { LucideUserRoundCog, Trash2, User2 } from 'lucide-react'
@@ -98,21 +107,21 @@ export function People({ currentUser }: PeopleProps) {
           </Card>
         ))}
       </div>
-      <Dialog>
-        <DialogTrigger className="w-full p-4">
+      <Sheet>
+        <SheetTrigger className="w-full p-4">
           <div className="h-12 flex items-center justify-center bg-slate-950 rounded-lg text-slate-200">
             <LucideUserRoundCog className="mr-4" />
             Gerenciar equipes
           </div>
-        </DialogTrigger>
-        <DialogContent className="rounded-xl">
-          <DialogHeader>
-            <DialogTitle>Gerenciar equipes</DialogTitle>
-          </DialogHeader>
-
-          <DialogFooter></DialogFooter>
-        </DialogContent>
-      </Dialog>
+        </SheetTrigger>
+        <SheetContent side="bottom" className="rounded-xl h-40 mx-4">
+          <SheetHeader>
+            <SheetTitle>Futuras funcionalidades</SheetTitle>
+            <SheetDescription>Aguarde...</SheetDescription>
+          </SheetHeader>
+          <SheetFooter></SheetFooter>
+        </SheetContent>
+      </Sheet>
     </div>
   )
 }

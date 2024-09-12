@@ -1,6 +1,6 @@
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button } from '../ui/button'
@@ -42,9 +42,10 @@ type Fields =
 type MusicProps = {
   id?: string
   loadData: () => Promise<void>
+  setModalClose?: () => void
 }
 
-export function MusicEdit({ id, loadData }: MusicProps) {
+export function MusicEdit({ id, loadData, setModalClose }: MusicProps) {
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
   const form = useForm<z.infer<typeof formSchema>>({
@@ -106,6 +107,7 @@ export function MusicEdit({ id, loadData }: MusicProps) {
       body: JSON.stringify(values)
     })
     form.reset()
+    if (setModalClose) setModalClose()
     return postSubmit('✓ Música adicionada com sucesso!')
   }
 
@@ -124,7 +126,7 @@ export function MusicEdit({ id, loadData }: MusicProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 h-[500px] border-t border-b overflow-x-scroll p-4"
+        className="flex flex-col gap-4 h-[calc(100vh-300px)] border-t border-b overflow-x-scroll p-4"
       >
         <FormField
           control={form.control}

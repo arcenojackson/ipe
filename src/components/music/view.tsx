@@ -1,6 +1,6 @@
 import { toast } from '@/hooks/use-toast'
 import { Music } from '@/types/music'
-import { ExternalLink, Fullscreen } from 'lucide-react'
+import { CornerUpLeft, ExternalLink, Fullscreen } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import YouTube from 'react-youtube'
 import { Button } from '../ui/button'
@@ -38,7 +38,7 @@ export function MusicView({ id }: PlayingProps) {
   }, [id])
 
   return (
-    <section className="flex flex-col gap-4 h-[500px] border-b overflow-x-scroll p-4">
+    <section className="flex flex-col gap-4 h-[calc(100vh-300px)] border-b overflow-hidden p-4">
       <div className="grid grid-cols-2">
         <span className="font-bold">
           Versão:
@@ -62,15 +62,28 @@ export function MusicView({ id }: PlayingProps) {
           </a>
         </span>
       </div>
-      <span className="font-bold">Letra:</span>
-      <div
-        className={`flex flex-col gap-2 ${fullscreen ? 'fixed top-0 left-0 bottom-0 w-full h-full px-4 z-50 bg-white' : ''}`}
-      >
-        <Button onClick={() => setFullscreen(!fullscreen)}>
-          {fullscreen ? 'Sair da tela cheia' : 'Tela cheia'}
+      <span className="font-bold flex gap-4 items-center">
+        Letra:
+        <Button className="w-36 flex gap-4" onClick={() => setFullscreen(!fullscreen)}>
+          <Fullscreen />
+          {fullscreen ? 'Voltar' : 'Tela cheia'}
         </Button>
+      </span>
+      <div
+        className={`flex flex-col gap-2 ${fullscreen ? 'absolute top-4 left-0 bottom-0 w-full px-4 z-50 bg-white' : ''}`}
+      >
+        {fullscreen && (
+          <Button className="w-36 flex gap-4" onClick={() => setFullscreen(!fullscreen)}>
+            <CornerUpLeft />
+            Voltar
+          </Button>
+        )}
         {music?.lyrics && (
-          <textarea disabled rows={20} className="resize-none ">
+          <textarea
+            disabled
+            rows={fullscreen ? 24 : 17}
+            className="resize-none bg-slate-100 rounded-lg pl-2"
+          >
             {music.lyrics}
           </textarea>
         )}

@@ -1,28 +1,53 @@
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { Calendar, ThumbsDown, ThumbsUp } from 'lucide-react'
+import { Event } from '@/types/event'
+import { User } from '@/types/user'
+import { format } from 'date-fns'
+import { Calendar, ThumbsDown, ThumbsUp, TreePalm } from 'lucide-react'
+import { useCallback, useEffect, useState } from 'react'
 
-export function Agenda() {
+type PeopleProps = {
+  currentUser: Partial<User>
+}
+
+export function Agenda({ currentUser }: PeopleProps) {
+  const [agendas, setAgendas] = useState<Event[]>([])
+
+  useEffect(() => {
+    ;(async () => loadAgendas())()
+  }, [])
+
+  const loadAgendas = useCallback(async () => {
+    const response = await fetch(`/api/users/${currentUser.id}/events`)
+    const result = await response.json()
+    console.log(result.data)
+    setAgendas(result.data)
+  }, [])
+
   return (
     <div className="flex flex-col flex-1 gap-4 p-4 overflow-y-scroll">
-      <Card bgColor="bg-slate-800">
-        <Card.Icon>
-          <Calendar size={28} color="white" />
-        </Card.Icon>
-        <Card.Content>
-          <span>Culto 08/09</span>
-          <span className="text-sm">Guitarra - Louvor</span>
-          <span className="text-xs text-slate-300">19:25h 08/09/2024</span>
-        </Card.Content>
-        <Card.Actions>
-          <Button variant="ghost">
-            <ThumbsUp size={30} color="#1ff702" />
-          </Button>
-          <Button variant="ghost">
-            <ThumbsDown size={30} color="red" />
-          </Button>
-        </Card.Actions>
-      </Card>
+      {!agendas.length ? (
+        <div className="flex flex-col items-center gap-8 mt-8">
+          <span className="font-semibold text-center text-xl text-slate-50">
+            Você não está escalado para nenhum evento por enquanto...
+          </span>
+          <TreePalm size={60} color="white" />
+        </div>
+      ) : (
+        agendas.map((agenda) => (
+          <Card bgColor="bg-slate-800">
+            <Card.Icon bgColor="bg-emerald-600 mr-4">
+              <Calendar size={28} color="white" />
+            </Card.Icon>
+            <Card.Content>
+              <span>{agenda.name}</span>
+              <span className="text-xs text-slate-300">
+                {agenda.start}h {format(new Date(agenda.date), 'dd/MM/yyyy')}
+              </span>
+            </Card.Content>
+          </Card>
+        ))
+      )}
     </div>
   )
 }

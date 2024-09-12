@@ -22,6 +22,14 @@ import {
 } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
 import { Loading } from '@/components/ui/loading'
+import {
+  Sheet,
+  SheetContent,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger
+} from '@/components/ui/sheet'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useToast } from '@/hooks/use-toast'
 import { Event } from '@/types/event'
@@ -115,21 +123,21 @@ export function Planning() {
           </Card>
         ))}
       </div>
-      <Dialog>
-        <DialogTrigger className="w-full p-4">
+      <Sheet>
+        <SheetTrigger className="w-full p-4">
           <div className="h-12 flex items-center justify-center bg-slate-950 rounded-lg text-slate-200">
             <PlusCircle className="mr-4" />
             Adicionar evento
           </div>
-        </DialogTrigger>
-        <DialogContent className="rounded-xl">
-          <DialogHeader>
-            <DialogTitle>Nova evento</DialogTitle>
-          </DialogHeader>
+        </SheetTrigger>
+        <SheetContent side="bottom" className="rounded-xl mx-4">
+          <SheetHeader>
+            <SheetTitle>Nova evento</SheetTitle>
+          </SheetHeader>
           <EventEdit loadData={loadData} />
-          <DialogFooter></DialogFooter>
-        </DialogContent>
-      </Dialog>
+          <SheetFooter></SheetFooter>
+        </SheetContent>
+      </Sheet>
     </div>
   )
 }
