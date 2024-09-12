@@ -25,7 +25,7 @@ export default function Home({ params }: HomeProps) {
   const user = JSON.parse(cookies.get('user') ?? '{}')
   const [section, setSection] = useState<Section>(params.section ?? 'agenda')
 
-  if (!user?.email) return
+  if (!user?.email) router.replace('/')
 
   function logout() {
     cookies.remove('user')

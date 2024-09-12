@@ -23,9 +23,10 @@ type Fields = 'name' | 'date' | 'start'
 type EventProps = {
   id?: string
   loadData: () => Promise<void>
+  closeModal?: () => void
 }
 
-export function EventEdit({ id, loadData }: EventProps) {
+export function EventEdit({ id, loadData, closeModal }: EventProps) {
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
   const form = useForm<z.infer<typeof formSchema>>({
@@ -77,6 +78,7 @@ export function EventEdit({ id, loadData }: EventProps) {
       body: JSON.stringify(values)
     })
     form.reset()
+    if (closeModal) closeModal()
     return postSubmit('✓ Evento adicionado com sucesso!')
   }
 

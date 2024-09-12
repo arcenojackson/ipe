@@ -12,6 +12,7 @@ export async function DELETE(_: Request, { params }: RouteProps) {
     `
     return NextResponse.json({ message: 'Usuário excluído com sucesso.' }, { status: 200 })
   } catch (error) {
+    console.log(error)
     return NextResponse.json({ message: 'Internal Error' }, { status: 500 })
   }
 }

@@ -31,7 +31,7 @@ import {
 import { useToast } from '@/hooks/use-toast'
 import { User } from '@/types/user'
 import { LucideUserRoundCog, Trash2, User2 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 type PeopleProps = {
   currentUser: Partial<User>
@@ -46,7 +46,7 @@ export function People({ currentUser }: PeopleProps) {
     ;(async () => await loadData())()
   }, [])
 
-  async function loadData() {
+  const loadData = useCallback(async () => {
     try {
       const response = await fetch('/api/users')
       const result = await response.json()
@@ -61,7 +61,7 @@ export function People({ currentUser }: PeopleProps) {
         variant: 'destructive'
       })
     }
-  }
+  }, [users])
 
   async function onDeleteUser(id: string) {
     await fetch(`/api/users/${id}`, { method: 'DELETE' })

@@ -144,7 +144,7 @@ export function Musics() {
           <SheetHeader>
             <SheetTitle>Nova música</SheetTitle>
           </SheetHeader>
-          <MusicEdit loadData={loadData} setModalClose={() => setIsAddOpen(false)} />
+          <MusicEdit loadData={loadData} closeModal={() => setIsAddOpen(false)} />
           <SheetFooter></SheetFooter>
         </SheetContent>
       </Sheet>

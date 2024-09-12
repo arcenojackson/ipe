@@ -40,6 +40,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 export function Planning() {
   const [isLoading, setIsLoading] = useState(true)
+  const [isAddOpen, setIsAddOpen] = useState(false)
   const [events, setEvents] = useState<Event[]>([])
   const { toast } = useToast()
   const { push } = useRouter()
@@ -123,7 +124,7 @@ export function Planning() {
           </Card>
         ))}
       </div>
-      <Sheet>
+      <Sheet open={isAddOpen} onOpenChange={setIsAddOpen}>
         <SheetTrigger className="w-full p-4">
           <div className="h-12 flex items-center justify-center bg-slate-950 rounded-lg text-slate-200">
             <PlusCircle className="mr-4" />
@@ -134,7 +135,7 @@ export function Planning() {
           <SheetHeader>
             <SheetTitle>Nova evento</SheetTitle>
           </SheetHeader>
-          <EventEdit loadData={loadData} />
+          <EventEdit loadData={loadData} closeModal={() => setIsAddOpen(false)} />
           <SheetFooter></SheetFooter>
         </SheetContent>
       </Sheet>

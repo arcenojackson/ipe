@@ -85,8 +85,6 @@ export default function Event({ params }: EventProps) {
   const [users, setUsers] = useState<User[]>([])
   const [people, setPeople] = useState<string[]>([])
 
-  console.log('people', people)
-
   useEffect(() => {
     ;(async () => {
       loadEventSteps()
@@ -116,7 +114,6 @@ export default function Event({ params }: EventProps) {
   const loadEventSteps = useCallback(async () => {
     const response = await fetch(`/api/events/${id}`)
     const result = await response.json()
-    console.log(result.data)
     setSteps(result.data.steps)
     if (result.data.people) setPeople(result.data.people)
   }, [])
@@ -149,7 +146,6 @@ export default function Event({ params }: EventProps) {
 
   async function onSave() {
     setIsSaving(true)
-    console.log(people)
     const body = JSON.stringify({
       steps,
       people
@@ -168,7 +164,10 @@ export default function Event({ params }: EventProps) {
           Evento: <span className="font-bold">Culto hoje</span>
         </h1>
       </header>
-      <Tabs defaultValue="steps" className="flex flex-col flex-1 px-4 pb-4 overflow-hidden">
+      <Tabs
+        defaultValue="steps"
+        className={`flex flex-col flex-1 px-4 pb-4 overflow-hidden ${isSaving && 'items-center justify-center'}`}
+      >
         <div className="flex justify-between">
           <Button
             className="w-28 flex gap-2 my-2 text-slate-100"
@@ -193,7 +192,7 @@ export default function Event({ params }: EventProps) {
           <TabsTrigger value="team">Equipe</TabsTrigger>
         </TabsList>
         {isSaving ? (
-          <Loading />
+          <Loading color="h-[calc(100vh-300px)] text-slate-50 mt-10" />
         ) : (
           <>
             <TabsContent

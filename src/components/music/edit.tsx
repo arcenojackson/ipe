@@ -42,10 +42,10 @@ type Fields =
 type MusicProps = {
   id?: string
   loadData: () => Promise<void>
-  setModalClose?: () => void
+  closeModal?: () => void
 }
 
-export function MusicEdit({ id, loadData, setModalClose }: MusicProps) {
+export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
   const form = useForm<z.infer<typeof formSchema>>({
@@ -107,7 +107,7 @@ export function MusicEdit({ id, loadData, setModalClose }: MusicProps) {
       body: JSON.stringify(values)
     })
     form.reset()
-    if (setModalClose) setModalClose()
+    if (closeModal) closeModal()
     return postSubmit('✓ Música adicionada com sucesso!')
   }
 
