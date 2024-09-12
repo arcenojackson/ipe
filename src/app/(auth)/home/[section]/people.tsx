@@ -42,6 +42,9 @@ export function People({ currentUser }: PeopleProps) {
   const [users, setUsers] = useState<User[]>([])
   const { toast } = useToast()
 
+  console.log('users')
+  console.log(users)
+
   useEffect(() => {
     ;(async () => await loadData())()
   }, [])
@@ -50,6 +53,8 @@ export function People({ currentUser }: PeopleProps) {
     try {
       const response = await fetch('/api/users')
       const result = await response.json()
+      console.log('result.data')
+      console.log(result.data)
       setUsers(result.data)
       setIsLoading(false)
     } catch (error) {
@@ -61,7 +66,7 @@ export function People({ currentUser }: PeopleProps) {
         variant: 'destructive'
       })
     }
-  }, [users])
+  }, [])
 
   async function onDeleteUser(id: string) {
     await fetch(`/api/users/${id}`, { method: 'DELETE' })
