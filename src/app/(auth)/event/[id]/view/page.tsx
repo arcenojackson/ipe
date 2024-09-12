@@ -155,7 +155,6 @@ export default function EventView({ params }: EventProps) {
                     >
                       {step.title}
                       <p className="text-xs font-normal">{step.description}</p>
-                      {step.type === 'music' && <Badge variant="default">Música</Badge>}
                     </span>
                   )}
                 </div>
