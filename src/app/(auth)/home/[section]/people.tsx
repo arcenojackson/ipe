@@ -1,14 +1,3 @@
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger
-} from '@/components/ui/alert-dialog'
 import { Card } from '@/components/ui/card'
 import { Loading } from '@/components/ui/loading'
 import {
@@ -22,14 +11,10 @@ import {
 } from '@/components/ui/sheet'
 import { useToast } from '@/hooks/use-toast'
 import { User } from '@/types/user'
-import { LucideUserRoundCog, Trash2, User2 } from 'lucide-react'
+import { LucideUserRoundCog, User2 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 
-type PeopleProps = {
-  currentUser: Partial<User>
-}
-
-export function People({ currentUser }: PeopleProps) {
+export function People() {
   const [isLoading, setIsLoading] = useState(true)
   const [users, setUsers] = useState<User[]>([])
   const { toast } = useToast()
@@ -56,14 +41,7 @@ export function People({ currentUser }: PeopleProps) {
         variant: 'destructive'
       })
     }
-  }, [users])
-
-  async function onDeleteUser(id: string) {
-    setIsLoading(true)
-    await fetch(`/api/users/${id}`, { method: 'DELETE' })
-    setUsers(users.filter((user) => user.id !== id))
-    await loadData()
-  }
+  }, [])
 
   return (
     <div className="flex flex-col flex-1">
@@ -77,29 +55,6 @@ export function People({ currentUser }: PeopleProps) {
             <Card.Content>
               <span>{user.name}</span>
             </Card.Content>
-            {user.email !== currentUser.email && (
-              <Card.Actions>
-                <AlertDialog>
-                  <AlertDialogTrigger>
-                    <Trash2 size={30} color="red" />
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Deseja mesmo excluir este usuário?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Esta ação não poderá ser desfeita.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                      <AlertDialogAction onClick={() => onDeleteUser(user.id!)}>
-                        Excluir
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </Card.Actions>
-            )}
           </Card>
         ))}
       </div>

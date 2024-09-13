@@ -83,7 +83,7 @@ export default function Home({ params }: HomeProps) {
             <Planning />
           </Show.When>
           <Show.When isTrue={section === 'people'}>
-            <People currentUser={user} />
+            <People />
           </Show.When>
           <Show.When isTrue={section === 'music'}>
             <Musics />
