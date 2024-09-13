@@ -59,9 +59,10 @@ export function People({ currentUser }: PeopleProps) {
   }, [users])
 
   async function onDeleteUser(id: string) {
+    setIsLoading(true)
     await fetch(`/api/users/${id}`, { method: 'DELETE' })
     setUsers(users.filter((user) => user.id !== id))
-    setIsLoading(true)
+    await loadData()
   }
 
   return (
