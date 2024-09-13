@@ -1,23 +1,4 @@
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger
-} from '@/components/ui/alert-dialog'
 import { Card } from '@/components/ui/card'
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from '@/components/ui/dialog'
 import { Loading } from '@/components/ui/loading'
 import {
   Sheet,
@@ -30,7 +11,7 @@ import {
 } from '@/components/ui/sheet'
 import { useToast } from '@/hooks/use-toast'
 import { User } from '@/types/user'
-import { LucideUserRoundCog, Trash2, User2 } from 'lucide-react'
+import { LucideUserRoundCog, User2 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 
 type PeopleProps = {
@@ -42,19 +23,17 @@ export function People({ currentUser }: PeopleProps) {
   const [users, setUsers] = useState<User[]>([])
   const { toast } = useToast()
 
-  console.log('users')
-  console.log(users)
-
   useEffect(() => {
     ;(async () => await loadData())()
+    return () => {
+      setUsers([])
+    }
   }, [])
 
   const loadData = useCallback(async () => {
     try {
       const response = await fetch('/api/users')
       const result = await response.json()
-      console.log('result.data')
-      console.log(result.data)
       setUsers(result.data)
       setIsLoading(false)
     } catch (error) {
@@ -86,7 +65,7 @@ export function People({ currentUser }: PeopleProps) {
             <Card.Content>
               <span>{user.name}</span>
             </Card.Content>
-            {user.email !== currentUser.email && (
+            {/* {user.email !== currentUser.email && (
               <Card.Actions>
                 <AlertDialog>
                   <AlertDialogTrigger>
@@ -108,7 +87,7 @@ export function People({ currentUser }: PeopleProps) {
                   </AlertDialogContent>
                 </AlertDialog>
               </Card.Actions>
-            )}
+            )} */}
           </Card>
         ))}
       </div>

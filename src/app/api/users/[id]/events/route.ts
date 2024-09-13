@@ -19,7 +19,6 @@ export async function GET(_: Request, { params }: RouteProps) {
       INNER JOIN user_ids ON (user_ids.user_id = ${id})
     `
     const data = rows
-    console.log(data)
     return NextResponse.json({ message: 'Eventos do usuários', data }, { status: 200 })
   } catch (error) {
     console.log(error)

@@ -33,7 +33,7 @@ export default function Home({ params }: HomeProps) {
   }
 
   const pageView = {
-    agenda: 'AGENDA',
+    agenda: 'SUA AGENDA',
     planning: 'PLANEJAR',
     people: 'PESSOAS',
     music: 'MÚSICAS'
