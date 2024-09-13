@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Loading } from '@/components/ui/loading'
 import {
@@ -16,6 +17,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 export function People() {
   const [isLoading, setIsLoading] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
   const [users, setUsers] = useState<User[]>([])
   const { toast } = useToast()
 
@@ -27,11 +29,13 @@ export function People() {
   }, [])
 
   const loadData = async () => {
+    setIsLoading(true)
     try {
       const response = await fetch('/api/users', { cache: 'no-cache' })
       const result = await response.json()
       setUsers(result.data)
       setIsLoading(false)
+      setIsOpen(false)
     } catch (error) {
       console.log(error)
       setIsLoading(false)
@@ -58,7 +62,7 @@ export function People() {
           </Card>
         ))}
       </div>
-      <Sheet>
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger className="w-full p-4">
           <div className="h-12 flex items-center justify-center bg-slate-950 rounded-lg text-slate-200">
             <LucideUserRoundCog className="mr-4" />
@@ -70,6 +74,7 @@ export function People() {
             <SheetTitle>Futuras funcionalidades</SheetTitle>
             <SheetDescription>Aguarde...</SheetDescription>
           </SheetHeader>
+          <Button onClick={loadData}>Carregar usuários</Button>
           <SheetFooter></SheetFooter>
         </SheetContent>
       </Sheet>
