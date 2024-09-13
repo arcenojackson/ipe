@@ -1,3 +1,14 @@
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from '@/components/ui/alert-dialog'
 import { Card } from '@/components/ui/card'
 import { Loading } from '@/components/ui/loading'
 import {
@@ -11,7 +22,7 @@ import {
 } from '@/components/ui/sheet'
 import { useToast } from '@/hooks/use-toast'
 import { User } from '@/types/user'
-import { LucideUserRoundCog, User2 } from 'lucide-react'
+import { LucideUserRoundCog, Trash2, User2 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 
 type PeopleProps = {
@@ -65,7 +76,7 @@ export function People({ currentUser }: PeopleProps) {
             <Card.Content>
               <span>{user.name}</span>
             </Card.Content>
-            {/* {user.email !== currentUser.email && (
+            {user.email !== currentUser.email && (
               <Card.Actions>
                 <AlertDialog>
                   <AlertDialogTrigger>
@@ -87,7 +98,7 @@ export function People({ currentUser }: PeopleProps) {
                   </AlertDialogContent>
                 </AlertDialog>
               </Card.Actions>
-            )} */}
+            )}
           </Card>
         ))}
       </div>
