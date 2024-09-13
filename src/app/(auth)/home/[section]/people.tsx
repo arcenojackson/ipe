@@ -43,7 +43,7 @@ export function People({ currentUser }: PeopleProps) {
 
   const loadData = useCallback(async () => {
     try {
-      const response = await fetch('/api/users')
+      const response = await fetch('/api/users', { cache: 'no-cache' })
       const result = await response.json()
       setUsers(result.data)
       setIsLoading(false)
