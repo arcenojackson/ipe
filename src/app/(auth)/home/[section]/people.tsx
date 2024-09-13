@@ -26,7 +26,7 @@ export function People() {
     }
   }, [])
 
-  const loadData = useCallback(async () => {
+  const loadData = async () => {
     try {
       const response = await fetch('/api/users', { cache: 'no-cache' })
       const result = await response.json()
@@ -41,7 +41,7 @@ export function People() {
         variant: 'destructive'
       })
     }
-  }, [])
+  }
 
   return (
     <div className="flex flex-col flex-1">
