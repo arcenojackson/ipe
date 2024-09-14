@@ -39,6 +39,7 @@ export function EventEdit({ id, loadData, closeModal }: EventProps) {
   })
 
   useEffect(() => {
+    console.log(id)
     if (!id) return
     ;(async () => {
       try {
@@ -56,12 +57,20 @@ export function EventEdit({ id, loadData, closeModal }: EventProps) {
         const event = result.data
         for (const key in event) {
           const field: Fields = key as Fields
+          if (field === 'date') {
+            form.setValue(field, new Date(event[field]))
+            continue
+          }
           form.setValue(field, event[field])
         }
       } catch (error) {
         console.log(error)
       }
     })()
+    return () => {
+      id = undefined
+      form.reset()
+    }
   }, [])
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -77,20 +86,20 @@ export function EventEdit({ id, loadData, closeModal }: EventProps) {
       method: 'POST',
       body: JSON.stringify(values)
     })
-    form.reset()
-    if (closeModal) closeModal()
     return postSubmit('✓ Evento adicionado com sucesso!')
   }
 
   async function postSubmit(description: string) {
+    await loadData()
+    setIsLoading(false)
+    form.reset()
+    if (closeModal) closeModal()
     toast({
       title: 'Eventos',
       description,
       variant: 'success',
       duration: 5000
     })
-    await loadData()
-    setIsLoading(false)
   }
 
   return (

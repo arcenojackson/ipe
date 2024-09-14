@@ -51,6 +51,7 @@ import { Music } from '@/types/music'
 import { User } from '@/types/user'
 import { DragDropContext, Draggable, DropResult, Droppable } from '@hello-pangea/dnd'
 import { CaretSortIcon } from '@radix-ui/react-icons'
+import { format } from 'date-fns'
 import {
   ArrowLeftCircle,
   CheckIcon,
@@ -71,11 +72,12 @@ type EventProps = {
 export default function Event({ params }: EventProps) {
   const { id } = params
   const { replace } = useRouter()
+  const [eventName, setEventName] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [steps, setSteps] = useState<EventSteps[]>([])
   const [typeOfAdd, setTypeOfAdd] = useState('step')
-  const [isUpdateOpen, setIsUpdateOpen] = useState(false)
+  const [updatingId, setUpdatingId] = useState<number | null>(null)
   const [isAddOpen, setIsAddOpen] = useState(false)
   const [isAddPeopleOpen, setIsAddPeopleOpen] = useState(false)
   const [goBackOpen, setGoBackOpen] = useState(false)
@@ -116,6 +118,8 @@ export default function Event({ params }: EventProps) {
     const response = await fetch(`/api/events/${id}`)
     const result = await response.json()
     setSteps(result.data.steps)
+    const name = `${result.data.name} (${format(result.data.date, 'dd/MM')})`
+    setEventName(name)
     if (result.data.people) setPeople(result.data.people)
   }, [])
 
@@ -143,7 +147,7 @@ export default function Event({ params }: EventProps) {
     const currentSteps = Array.from(steps)
     currentSteps[index] = updatingStep
     setSteps(currentSteps)
-    setIsUpdateOpen(false)
+    setUpdatingId(null)
   }
 
   async function onSave() {
@@ -163,7 +167,7 @@ export default function Event({ params }: EventProps) {
     <main className="w-full h-screen flex flex-col bg-slate-600">
       <header className="flex items-center justify-center gap-6 p-4 bg-slate-800">
         <h1 className="text-lg text-slate-50">
-          Evento: <span className="font-bold">Culto hoje</span>
+          Evento: <span className="font-bold">{eventName}</span>
         </h1>
       </header>
       <Tabs
@@ -235,7 +239,7 @@ export default function Event({ params }: EventProps) {
                                 <span
                                   onClick={() => {
                                     setUpdatingStep(step)
-                                    setIsUpdateOpen(true)
+                                    setUpdatingId(index)
                                   }}
                                   className="ml-4 flex-1 text-left font-bold text-sm"
                                 >
@@ -243,7 +247,10 @@ export default function Event({ params }: EventProps) {
                                   <p className="text-xs font-normal">{step.description}</p>
                                   {step.type === 'music' && <Badge variant="default">Música</Badge>}
                                 </span>
-                                <Sheet open={isUpdateOpen} onOpenChange={setIsUpdateOpen}>
+                                <Sheet
+                                  open={updatingId === index}
+                                  onOpenChange={() => setUpdatingId(updatingId ? null : index)}
+                                >
                                   <SheetContent
                                     side="bottom"
                                     className="flex flex-col gap-4 mx-4 py-10 rounded-t-lg"
