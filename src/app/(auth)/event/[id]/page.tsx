@@ -311,10 +311,7 @@ export default function Event({ params }: EventProps) {
                                       >
                                         Salvar
                                       </Button>
-                                      <Button
-                                        onClick={() => setIsUpdateOpen(false)}
-                                        variant="outline"
-                                      >
+                                      <Button onClick={() => setUpdatingId(null)} variant="outline">
                                         Fechar
                                       </Button>
                                     </div>
