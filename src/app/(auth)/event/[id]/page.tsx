@@ -88,7 +88,7 @@ export default function Event({ params }: EventProps) {
   useEffect(() => {
     ;(async () => {
       loadEventSteps()
-      loadUsers()
+      // loadUsers()
       setIsLoading(false)
     })()
   }, [])
@@ -118,16 +118,17 @@ export default function Event({ params }: EventProps) {
     if (result.data.people) setPeople(result.data.people)
   }, [])
 
-  const loadUsers = useCallback(async () => {
-    const response = await fetch('/api/people')
-    const result = await response.json()
-    setUsers(result.data)
-  }, [])
+  // const loadUsers = useCallback(async () => {
+  //   const response = await fetch('/api/people')
+  //   const result = await response.json()
+  //   setUsers(result.data)
+  // }, [])
 
   const loadMusics = useCallback(async () => {
     const response = await fetch('/api/musics')
     const result = await response.json()
     if (result.data) setMusics(result.data)
+    if (result.users) setUsers(result.users)
   }, [])
 
   const onDeleteStep = (index: number) => {

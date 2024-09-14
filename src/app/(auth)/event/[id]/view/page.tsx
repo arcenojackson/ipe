@@ -40,7 +40,7 @@ export default function EventView({ params }: EventProps) {
   useEffect(() => {
     ;(async () => {
       await loadEventSteps()
-      await loadUsers()
+      // await loadUsers()
       await loadMusics()
       setIsLoading(false)
     })()
@@ -58,16 +58,17 @@ export default function EventView({ params }: EventProps) {
     setEventMusics(musics ?? [])
   }, [])
 
-  const loadUsers = useCallback(async () => {
-    const response = await fetch('/api/people')
-    const result = await response.json()
-    setUsers(result.data)
-  }, [])
+  // const loadUsers = useCallback(async () => {
+  //   const response = await fetch('/api/people')
+  //   const result = await response.json()
+  //   setUsers(result.data)
+  // }, [])
 
   const loadMusics = useCallback(async () => {
     const response = await fetch('/api/musics')
     const result = await response.json()
     if (result.data) setMusics(result.data)
+    if (result.users) setUsers(result.users)
   }, [])
 
   return (
