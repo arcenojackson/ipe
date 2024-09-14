@@ -2,7 +2,7 @@ import { db } from './db'
 
 export async function createUsers() {
   await db.sql`
-    CREATE TABLE users (
+    CREATE TABLE people (
       id uuid DEFAULT gen_random_uuid(),
       name TEXT NOT NULL,
       email TEXT NOT NULL,

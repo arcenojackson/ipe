@@ -8,7 +8,7 @@ type RouteProps = {
 export async function DELETE(_: Request, { params }: RouteProps) {
   try {
     await db.sql`
-      DELETE FROM users WHERE id = ${params.id};
+      DELETE FROM people WHERE id = ${params.id};
     `
     return NextResponse.json({ message: 'Usuário excluído com sucesso.' }, { status: 200 })
   } catch (error) {

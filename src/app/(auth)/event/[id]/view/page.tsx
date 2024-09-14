@@ -59,7 +59,7 @@ export default function EventView({ params }: EventProps) {
   }, [])
 
   const loadUsers = useCallback(async () => {
-    const response = await fetch('/api/users')
+    const response = await fetch('/api/people')
     const result = await response.json()
     setUsers(result.data)
   }, [])

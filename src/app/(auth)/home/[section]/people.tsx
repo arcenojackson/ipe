@@ -28,7 +28,7 @@ export function People() {
   const loadData = useCallback(async () => {
     setIsLoading(true)
     try {
-      const response = await fetch('/api/users')
+      const response = await fetch('/api/people')
       const result = await response.json()
       setUsers(result.data)
       setIsLoading(false)

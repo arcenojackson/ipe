@@ -21,7 +21,7 @@ export function Agenda({ currentUser }: PeopleProps) {
   }, [])
 
   const loadAgendas = useCallback(async () => {
-    const response = await fetch(`/api/users/${currentUser.id}/events`)
+    const response = await fetch(`/api/people/${currentUser.id}/events`)
     const result = await response.json()
     setAgendas(result.data)
     setIsLoading(false)
