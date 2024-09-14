@@ -41,6 +41,7 @@ import { useCallback, useEffect, useState } from 'react'
 export function Planning() {
   const [isLoading, setIsLoading] = useState(true)
   const [isAddOpen, setIsAddOpen] = useState(false)
+  const [editEventId, setEditEventId] = useState<string | null>(null)
   const [events, setEvents] = useState<Event[]>([])
   const { toast } = useToast()
   const { push } = useRouter()
@@ -75,7 +76,7 @@ export function Planning() {
 
   return (
     <div className="flex flex-col flex-1">
-      <div className="flex flex-col flex-1 items-center gap-4 p-4 overflow-y-scroll">
+      <div className="flex flex-col flex-1 items-center gap-2 p-4 overflow-y-scroll">
         {isLoading && <Loading />}
         {events.map((event) => (
           <Card height="h-24" bgColor="bg-slate-800" key={event.id}>
@@ -89,18 +90,25 @@ export function Planning() {
               </Card.Content>
             </div>
             <Card.Actions>
-              <Dialog>
-                <DialogTrigger>
+              <Sheet
+                open={editEventId === event.id}
+                onOpenChange={() => setEditEventId(editEventId ? null : event.id!)}
+              >
+                <SheetTrigger>
                   <Edit size={26} color="white" />
-                </DialogTrigger>
-                <DialogContent className="rounded-xl">
-                  <DialogHeader>
-                    <DialogTitle>Editar evento</DialogTitle>
-                  </DialogHeader>
-                  <EventEdit id={event.id} loadData={loadData} />
-                  <DialogFooter></DialogFooter>
-                </DialogContent>
-              </Dialog>
+                </SheetTrigger>
+                <SheetContent side="bottom" className="rounded-xl mx-4">
+                  <SheetHeader>
+                    <SheetTitle>Editar evento</SheetTitle>
+                  </SheetHeader>
+                  <EventEdit
+                    id={event.id}
+                    loadData={loadData}
+                    closeModal={() => setEditEventId(null)}
+                  />
+                  <SheetFooter></SheetFooter>
+                </SheetContent>
+              </Sheet>
               <AlertDialog>
                 <AlertDialogTrigger>
                   <Trash2 size={26} color="red" />
