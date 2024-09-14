@@ -88,6 +88,7 @@ export default function Event({ params }: EventProps) {
   useEffect(() => {
     ;(async () => {
       loadEventSteps()
+      loadMusics()
       // loadUsers()
       setIsLoading(false)
     })()
