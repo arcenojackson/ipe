@@ -23,15 +23,12 @@ export function People() {
 
   useEffect(() => {
     ;(async () => await loadData())()
-    return () => {
-      setUsers([])
-    }
   }, [])
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     setIsLoading(true)
     try {
-      const response = await fetch('/api/users', { cache: 'no-cache' })
+      const response = await fetch('/api/users')
       const result = await response.json()
       setUsers(result.data)
       setIsLoading(false)
@@ -45,14 +42,14 @@ export function People() {
         variant: 'destructive'
       })
     }
-  }
+  }, [])
 
   return (
     <div className="flex flex-col flex-1">
-      <div className="flex flex-col flex-1 items-center gap-4 p-4 overflow-y-scroll">
+      <div className="flex flex-col flex-1 items-center gap-2 p-4 overflow-y-scroll">
         {isLoading && <Loading />}
         {users.map((user) => (
-          <Card height="h-24" bgColor="bg-slate-800" key={user.id}>
+          <Card height="h-16" bgColor="bg-slate-800" key={user.id}>
             <Card.Icon bgColor="bg-purple-800">
               <User2 size={28} color="white" />
             </Card.Icon>

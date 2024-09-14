@@ -7,7 +7,7 @@ export default async function LogIn() {
   const user = JSON.parse(storedUser)
   if (user.name) redirect('/home/agenda')
   return (
-    <main className="flex h-screen flex-col items-center justify-center bg-slate-800">
+    <main className="w-full h-screen flex flex-col items-center pt-20 px-10 bg-slate-800">
       <Login />
     </main>
   )

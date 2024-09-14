@@ -3,8 +3,10 @@ import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
-    const { rows } = await db.sql`SELECT id, name, email FROM users`
-    return NextResponse.json({ message: 'Lista de usuários.', data: rows }, { status: 200 })
+    const { rows } = await db.sql`
+      SELECT id, name, email FROM users ORDER BY name ASC;
+    `
+    return NextResponse.json({ message: 'OK', data: rows }, { status: 200 })
   } catch (error) {
     return NextResponse.json({ message: 'Erro interno.' }, { status: 500 })
   }
