@@ -1,17 +1,16 @@
 import { db } from '@/database/db'
-import { comparePassword, generatePasswordHash } from '@/lib/hashing'
-import { User } from '@/types/user'
+import { generatePasswordHash } from '@/lib/hashing'
 import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
   try {
     const { name, email, password } = await req.json()
-    const { rows } = await db.sql<User>`SELECT * FROM users WHERE email = ${email};`
+    const { rows } = await db.sql`SELECT * FROM people WHERE email = ${email};`
     if (!!rows.length)
       return NextResponse.json({ message: 'Email já cadastrado.' }, { status: 400 })
     const passwordHash = generatePasswordHash(password)
-    const { rows: result } = await db.sql<User>`
-      INSERT INTO users (name, email, password)
+    const { rows: result } = await db.sql`
+      INSERT INTO people (name, email, password)
       VALUES (${name}, ${email}, ${passwordHash})
       RETURNING *;
     `

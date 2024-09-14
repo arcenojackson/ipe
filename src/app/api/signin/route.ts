@@ -1,12 +1,11 @@
 import { db } from '@/database/db'
 import { comparePassword } from '@/lib/hashing'
-import { User } from '@/types/user'
 import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
   try {
     const { email, password } = await req.json()
-    const { rows } = await db.sql<User>`SELECT * FROM users WHERE email = ${email};`
+    const { rows } = await db.sql`SELECT * FROM people WHERE email = ${email};`
     if (!rows.length)
       return NextResponse.json({ message: 'Email ou senha inválidos.' }, { status: 400 })
     const [userFound] = rows
