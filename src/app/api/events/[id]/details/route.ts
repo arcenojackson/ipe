@@ -16,7 +16,6 @@ export async function PUT(req: Request, { params }: RouteProps) {
       RETURNING *;
     `
     const event = rows[0]
-    console.log(event)
     return NextResponse.json(
       { message: 'Evento atualizado com sucesso.', data: event },
       { status: 200 }

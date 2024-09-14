@@ -8,9 +8,7 @@ export async function GET() {
     `
     console.warn('rows')
     console.warn(rows)
-    const { rows: users } = await db.sql`SELECT * FROM people;`
-    const { rows: musics } = await db.sql`SELECT * FROM musics;`
-    return NextResponse.json({ message: 'OK', data: rows, users, musics }, { status: 200 })
+    return NextResponse.json({ message: 'OK', data: rows }, { status: 200 })
   } catch (error) {
     console.error('error')
     console.error(error)
