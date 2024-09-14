@@ -6,7 +6,8 @@ export async function GET() {
     const { rows } = await db.sql`
       SELECT id, title, artist, tone FROM musics ORDER BY title ASC;
     `
-    return NextResponse.json({ message: 'OK', data: rows }, { status: 200 })
+    const { rows: users } = await db.sql`SELECT id, name, email FROM people ORDER BY name ASC;`
+    return NextResponse.json({ message: 'OK', data: rows, users }, { status: 200 })
   } catch (error) {
     return NextResponse.json({ message: 'Internal Error' }, { status: 500 })
   }
