@@ -73,7 +73,10 @@ export default function Home({ params }: HomeProps) {
           <div className="flex flex-col gap-2 mt-8">
             <Button
               className="w-full grid grid-cols-5"
-              onClick={() => setSection('agenda')}
+              onClick={() => {
+                setSection('agenda')
+                handleClick()
+              }}
               variant={section === 'agenda' ? 'default' : 'secondary'}
             >
               <CalendarCheck size={18} />
@@ -81,7 +84,10 @@ export default function Home({ params }: HomeProps) {
             </Button>
             <Button
               className="w-full grid grid-cols-5"
-              onClick={() => setSection('planning')}
+              onClick={() => {
+                setSection('planning')
+                handleClick()
+              }}
               variant={section === 'planning' ? 'default' : 'secondary'}
             >
               <CalendarCogIcon size={18} />
@@ -89,7 +95,10 @@ export default function Home({ params }: HomeProps) {
             </Button>
             <Button
               className="w-full grid grid-cols-5"
-              onClick={() => setSection('people')}
+              onClick={() => {
+                setSection('people')
+                handleClick()
+              }}
               variant={section === 'people' ? 'default' : 'secondary'}
             >
               <Users size={18} />
@@ -97,7 +106,10 @@ export default function Home({ params }: HomeProps) {
             </Button>
             <Button
               className="w-full grid grid-cols-5"
-              onClick={() => setSection('music')}
+              onClick={() => {
+                setSection('music')
+                handleClick()
+              }}
               variant={section === 'music' ? 'default' : 'secondary'}
             >
               <Music size={18} />
