@@ -5,7 +5,9 @@ import { NextResponse } from 'next/server'
 export async function GET() {
   try {
     const { rows } = await db.sql`
-      SELECT id, name, date FROM events ORDER BY date ASC;
+      SELECT id, name, date FROM events
+      WHERE date >= NOW()
+      ORDER BY date ASC;
     `
     return NextResponse.json({ message: 'OK', data: rows }, { status: 200 })
   } catch (error) {

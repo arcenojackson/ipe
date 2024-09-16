@@ -91,7 +91,6 @@ export default function Event({ params }: EventProps) {
     ;(async () => {
       loadEventSteps()
       loadMusics()
-      // loadUsers()
       setIsLoading(false)
     })()
   }, [])
@@ -122,12 +121,6 @@ export default function Event({ params }: EventProps) {
     setEventName(name)
     if (result.data.people) setPeople(result.data.people)
   }, [])
-
-  // const loadUsers = useCallback(async () => {
-  //   const response = await fetch('/api/people')
-  //   const result = await response.json()
-  //   setUsers(result.data)
-  // }, [])
 
   const loadMusics = useCallback(async () => {
     const response = await fetch('/api/musics')

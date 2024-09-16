@@ -2,7 +2,6 @@ import { toast } from '@/hooks/use-toast'
 import { Music } from '@/types/music'
 import { CornerUpLeft, ExternalLink, Fullscreen } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
-import YouTube from 'react-youtube'
 import { Button } from '../ui/button'
 
 type PlayingProps = {
@@ -38,7 +37,9 @@ export function MusicView({ id }: PlayingProps) {
   }, [id])
 
   return (
-    <section className="flex flex-col gap-4 h-[calc(100vh-300px)] border-b overflow-hidden p-4">
+    <section
+      className={`flex flex-col gap-4 ${fullscreen ? 'h-screen' : 'h-[calc(100vh-300px)]'} border-b overflow-hidden p-4`}
+    >
       <div className="grid grid-cols-2">
         <span className="font-bold">
           Versão:
@@ -48,11 +49,6 @@ export function MusicView({ id }: PlayingProps) {
             </p>
           </a>
         </span>
-        {/* {music?.youtube && (
-          <div className="">
-            <YouTube videoId="FnnmK-hOXEM" className="h-[200px]" />
-          </div>
-        )} */}
         <span className="font-bold">
           Cifra:
           <a href={music?.cipher} target="_blank" rel="noopener noreferrer">
@@ -70,7 +66,7 @@ export function MusicView({ id }: PlayingProps) {
         </Button>
       </span>
       <div
-        className={`flex flex-col gap-2 ${fullscreen ? 'absolute top-4 left-0 bottom-0 w-full px-4 z-50 bg-white' : ''}`}
+        className={`flex flex-col gap-2 ${fullscreen ? 'absolute top-16 left-0 bottom-0 w-full p-4 z-50 bg-white' : ''}`}
       >
         {fullscreen && (
           <Button className="w-36 flex gap-4" onClick={() => setFullscreen(!fullscreen)}>
