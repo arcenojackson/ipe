@@ -17,6 +17,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { EventSteps } from '@/types/event'
 import { Music } from '@/types/music'
 import { User } from '@/types/user'
+import { format } from 'date-fns'
 import { ArrowLeftCircle, Music4Icon, User2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
@@ -28,6 +29,7 @@ type EventProps = {
 export default function EventView({ params }: EventProps) {
   const { id } = params
   const { replace } = useRouter()
+  const [eventName, setEventName] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [isUpdateOpen, setIsUpdateOpen] = useState(false)
   const [updatingStep, setUpdatingStep] = useState<EventSteps | null>(null)
@@ -40,7 +42,6 @@ export default function EventView({ params }: EventProps) {
   useEffect(() => {
     ;(async () => {
       await loadEventSteps()
-      // await loadUsers()
       await loadMusics()
       setIsLoading(false)
     })()
@@ -51,18 +52,14 @@ export default function EventView({ params }: EventProps) {
     const result = await response.json()
     const { steps, people } = result.data
     setSteps(steps)
+    const name = `${result.data.name} (${format(result.data.date, 'dd/MM')})`
+    setEventName(name)
     if (people) setPeople(people)
     const musics = Array.from<EventSteps>(steps)
       .filter((step) => step.type === 'music')
       .map((step) => step.musicId) as string[]
     setEventMusics(musics ?? [])
   }, [])
-
-  // const loadUsers = useCallback(async () => {
-  //   const response = await fetch('/api/people')
-  //   const result = await response.json()
-  //   setUsers(result.data)
-  // }, [])
 
   const loadMusics = useCallback(async () => {
     const response = await fetch('/api/musics')
@@ -75,7 +72,7 @@ export default function EventView({ params }: EventProps) {
     <main className="w-full h-screen flex flex-col bg-slate-600">
       <header className="flex items-center justify-center gap-6 p-4 bg-slate-800">
         <h1 className="text-lg text-slate-50">
-          Evento: <span className="font-bold">Culto hoje</span>
+          Evento: <span className="font-bold">{eventName}</span>
         </h1>
       </header>
       <Tabs
@@ -117,13 +114,7 @@ export default function EventView({ params }: EventProps) {
                   {step.type === 'music' ? (
                     <Dialog>
                       <DialogTrigger className="w-full flex">
-                        <span
-                          onClick={() => {
-                            setUpdatingStep(step)
-                            setIsUpdateOpen(true)
-                          }}
-                          className="ml-4 flex-1 text-left font-bold text-sm"
-                        >
+                        <span className="ml-4 flex-1 text-left font-bold text-sm">
                           {step.title}
                           <p className="text-xs font-normal">{step.description}</p>
                           <div className="flex gap-2 mt-2">
@@ -147,13 +138,7 @@ export default function EventView({ params }: EventProps) {
                       </DialogContent>
                     </Dialog>
                   ) : (
-                    <span
-                      onClick={() => {
-                        setUpdatingStep(step)
-                        setIsUpdateOpen(true)
-                      }}
-                      className="ml-4 flex-1 text-left font-bold text-sm"
-                    >
+                    <span className="ml-4 flex-1 text-left font-bold text-sm">
                       {step.title}
                       <p className="text-xs font-normal">{step.description}</p>
                     </span>

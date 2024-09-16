@@ -76,7 +76,7 @@ export function Planning() {
 
   return (
     <div className="flex flex-col flex-1">
-      <div className="flex flex-col flex-1 items-center gap-2 p-4 overflow-y-scroll">
+      <div className="flex flex-col h-[calc(100vh-300px)] items-center gap-2 mt-4 px-4 overflow-y-auto">
         {isLoading && <Loading />}
         {events.map((event) => (
           <Card height="h-24" bgColor="bg-slate-800" key={event.id}>
@@ -86,7 +86,7 @@ export function Planning() {
               </Card.Icon>
               <Card.Content>
                 <span className="text-sm">{event.name}</span>
-                <span className="text-xs text-slate-300">{format(event.date, "dd 'de' MMMM")}</span>
+                <span className="text-xs text-slate-300">{format(event.date, 'dd/MM/yy')}</span>
               </Card.Content>
             </div>
             <Card.Actions>

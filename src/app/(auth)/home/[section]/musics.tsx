@@ -75,18 +75,17 @@ export function Musics() {
 
   return (
     <div className="flex flex-col flex-1">
-      <div className="flex flex-col flex-1 items-center gap-4 p-4 overflow-y-scroll">
+      <div className="flex flex-col h-[calc(100vh-300px)] items-center gap-2 mt-4 px-4 overflow-y-auto">
         {isLoading && <Loading />}
         {musics.map((music) => (
-          <Card height="h-24" bgColor="bg-slate-800">
-            <Dialog key={music.id}>
+          <Card height="h-20" bgColor="bg-slate-800" key={music.id}>
+            <Dialog>
               <DialogTrigger className="w-full flex">
                 <Card.Icon bgColor="bg-purple-800">
-                  <MusicIcon size={28} color="white" />
+                  <MusicIcon size={18} color="white" />
                 </Card.Icon>
                 <Card.Content>
                   <span>{music.title}</span>
-                  <span></span>
                   <span className="text-xs text-slate-300">{music.artist}</span>
                 </Card.Content>
               </DialogTrigger>
