@@ -38,7 +38,7 @@ export function Agenda({ currentUser }: PeopleProps) {
       ) : !agendas.length ? (
         <div className="flex flex-col items-center gap-8 mt-8">
           <span className="font-semibold text-center text-xl text-slate-50">
-            Você não está escalado para nenhum evento por enquanto...
+            Sem eventos por enquanto...
           </span>
           <BookPlus size={60} color="white" />
           <span className="font-normal text-center text-lg text-slate-50">
