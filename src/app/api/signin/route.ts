@@ -15,8 +15,10 @@ export async function POST(req: Request) {
     const user = {
       id: userFound.id,
       name: userFound.name,
-      email: userFound.email
+      email: userFound.email,
+      is_admin: userFound.is_admin
     }
+    console.log(user)
     return NextResponse.json({ message: 'Login realizado com sucesso', user }, { status: 200 })
   } catch (error) {
     console.log(error)

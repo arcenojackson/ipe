@@ -85,17 +85,19 @@ export default function Home({ params }: HomeProps) {
               <CalendarCheck size={18} />
               Sua agenda
             </Button>
-            <Button
-              className="w-full grid grid-cols-5"
-              onClick={() => {
-                setSection('planning')
-                handleClick()
-              }}
-              variant={section === 'planning' ? 'default' : 'secondary'}
-            >
-              <CalendarCogIcon size={18} />
-              Planejar
-            </Button>
+            {user.is_admin && (
+              <Button
+                className="w-full grid grid-cols-5"
+                onClick={() => {
+                  setSection('planning')
+                  handleClick()
+                }}
+                variant={section === 'planning' ? 'default' : 'secondary'}
+              >
+                <CalendarCogIcon size={18} />
+                Planejar
+              </Button>
+            )}
             <Button
               className="w-full grid grid-cols-5"
               onClick={() => {
@@ -107,17 +109,19 @@ export default function Home({ params }: HomeProps) {
               <Users size={18} />
               Pessoas
             </Button>
-            <Button
-              className="w-full grid grid-cols-5"
-              onClick={() => {
-                setSection('music')
-                handleClick()
-              }}
-              variant={section === 'music' ? 'default' : 'secondary'}
-            >
-              <Music size={18} />
-              Músicas
-            </Button>
+            {user.is_admin && (
+              <Button
+                className="w-full grid grid-cols-5"
+                onClick={() => {
+                  setSection('music')
+                  handleClick()
+                }}
+                variant={section === 'music' ? 'default' : 'secondary'}
+              >
+                <Music size={18} />
+                Músicas
+              </Button>
+            )}
           </div>
           <div className="flex flex-col items-center justify-center gap-4">
             <Button className="w-full grid grid-cols-5" variant="destructive" onClick={logout}>

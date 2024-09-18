@@ -54,7 +54,8 @@ export function Login() {
       const user = {
         id: '',
         name: '',
-        email: values.email
+        email: values.email,
+        is_admin: false
       }
       const password = values.password
       const response = await fetch(`/api/signin`, {
@@ -65,6 +66,7 @@ export function Login() {
       if (response.status !== 200) throw new Error(result.message)
       user.id = result.user.id
       user.name = result.user.name
+      user.is_admin = result.user.is_admin
       cookies.set('user', JSON.stringify(user))
       replace('/home/agenda')
     } catch (error: any) {
