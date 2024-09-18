@@ -9,10 +9,12 @@ An web app (PWA) to manage events, musics and people in the Presbyterian Church 
 - Member Directory: Keep track of church worship members and their information
 - Planning Tools: Organize and plan church activities
 
-<img src=".github/assets/planning.png" alt="IPE App Screenshot" width="200" />
-<img src=".github/assets/event.png" alt="IPE App Screenshot" width="200" />
-<img src=".github/assets/musics.png" alt="IPE App Screenshot" width="200" />
+<div style="display: flex;">
+  <img src=".github/assets/planning.png" alt="IPE App Screenshot" width="200" />
+  <img src=".github/assets/event.png" alt="IPE App Screenshot" width="200" />
+  <img src=".github/assets/musics.png" alt="IPE App Screenshot" width="200" />
 <img src=".github/assets/music.png" alt="IPE App Screenshot" width="200" />
+</div>
 
 ## Getting Started
 
