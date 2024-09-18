@@ -16,16 +16,24 @@ An web app (PWA) to manage events, musics and people in the Presbyterian Church 
 <img src=".github/assets/music.png" alt="IPE App Screenshot" width="200" />
 </div>
 
+## Prerequisites
+
+- Docker
+- Node >=20.12
+- Yarn
+
 ## Getting Started
 
-First of all, setup the .env file copying the content of .env.example to a new file named ".env"
+First of all, setup the .env file copying the content of .env.example to a new file named ".env":
 
-Running the app:
+```bash
+  cp .env.example .env
+```
+
+Installing dependencies:
 
 ```bash
   yarn
-
-  yarn dev
 ```
 
 Setting up database:
@@ -34,6 +42,12 @@ Setting up database:
   docker compose up -d
 
   yarn migrate:up
+```
+
+Running the app:
+
+```bash
+  yarn dev
 ```
 
 Now, open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
