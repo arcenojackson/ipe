@@ -1,8 +1,9 @@
+import { exit } from 'process'
 import { db } from './db'
 
-export async function createUsers() {
+async function createUsers() {
   await db.sql`
-    CREATE TABLE people (
+    CREATE TABLE IF NOT EXISTS people (
       id uuid DEFAULT gen_random_uuid(),
       name TEXT NOT NULL,
       email TEXT NOT NULL,
@@ -13,9 +14,9 @@ export async function createUsers() {
   `
 }
 
-export async function createMusics() {
+async function createMusics() {
   await db.sql`
-    CREATE TABLE musics (
+    CREATE TABLE IF NOT EXISTS musics (
       id uuid DEFAULT gen_random_uuid(),
       title TEXT NOT NULL,
       artist TEXT NOT NULL,
@@ -31,9 +32,9 @@ export async function createMusics() {
   `
 }
 
-export async function createEvents() {
+async function createEvents() {
   await db.sql`
-    CREATE TABLE events (
+    CREATE TABLE IF NOT EXISTS events (
       id uuid DEFAULT gen_random_uuid(),
       name TEXT NOT NULL,
       date TIMESTAMP NOT NULL,
@@ -43,9 +44,9 @@ export async function createEvents() {
   `
 }
 
-export async function createEventContents() {
+async function createEventContents() {
   await db.sql`
-    CREATE TABLE events_contents (
+    CREATE TABLE IF NOT EXISTS events_contents (
       id uuid DEFAULT gen_random_uuid(),
       event_id uuid NOT NULL,
       people JSONB,
@@ -57,3 +58,12 @@ export async function createEventContents() {
     );
   `
 }
+
+console.log('Iniciando execução de migrations!')
+console.log('Criando tabelas no banco...')
+await createUsers()
+await createMusics()
+await createEvents()
+await createEventContents()
+console.log('Migrations executadas com sucesso!')
+exit(0)

@@ -47,30 +47,33 @@ export default function Home({ params }: HomeProps) {
 
   return (
     <main className="w-full h-screen flex flex-col">
-      <header className="w-full h-48 flex p-4 bg-slate-800 text-slate-100">
-        <button onClick={handleClick} className="flex flex-col justify-center items-center">
-          <span
-            className={`bg-slate-100 block transition-all duration-300 ease-out 
-              h-0.5 w-6 rounded-sm ${isOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`}
-          ></span>
-          <span
-            className={`bg-slate-100 block transition-all duration-300 ease-out 
-              h-0.5 w-6 rounded-sm my-0.5 ${isOpen ? 'opacity-0' : 'opacity-100'}`}
-          ></span>
-          <span
-            className={`bg-slate-100 block transition-all duration-300 ease-out 
-              h-0.5 w-6 rounded-sm ${isOpen ? '-rotate-45 -translate-y-1' : 'translate-y-0.5'}`}
-          ></span>
-        </button>
-        <div className="flex flex-col flex-1 gap-2 items-center justify-center -ml-8">
-          <Image alt="Logo da igreja presbiteriana do estreito" src={Logo} height={80} />
+      <header className="w-full h-32 flex items-center justify-center py-4 px-8 bg-slate-800 text-slate-100">
+        <Image alt="Logo da igreja presbiteriana do estreito" src={Logo} height={100} />
+        <div className="flex flex-col flex-1 gap-2 items-center justify-center">
           <span className="text-lg">{`Olá ${user.name}!`}</span>
           <span>{pageView[section]}</span>
         </div>
+        <button onClick={handleClick} className="flex flex-col justify-center items-center">
+          <span
+            className={`bg-slate-100 block transition-all duration-300 ease-out 
+              h-1 w-8 rounded-sm ${isOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`}
+          ></span>
+          <span
+            className={`bg-slate-100 block transition-all duration-300 ease-out 
+              h-1 w-8 rounded-sm my-0.5 ${isOpen ? 'opacity-0' : 'opacity-100'}`}
+          ></span>
+          <span
+            className={`bg-slate-100 block transition-all duration-300 ease-out 
+              h-1 w-8 rounded-sm ${isOpen ? '-rotate-45 -translate-y-1' : 'translate-y-0.5'}`}
+          ></span>
+        </button>
       </header>
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetContent side="left" className="bg-slate-600 text-slate-50">
-          <div className="flex flex-col gap-2 mt-8">
+        <SheetContent
+          side="right"
+          className="w-56 flex flex-col justify-between bg-slate-600 text-slate-50"
+        >
+          <div className="flex flex-col gap-2 mt-12">
             <Button
               className="w-full grid grid-cols-5"
               onClick={() => {
@@ -115,10 +118,15 @@ export default function Home({ params }: HomeProps) {
               <Music size={18} />
               Músicas
             </Button>
+          </div>
+          <div className="flex flex-col items-center justify-center gap-4">
             <Button className="w-full grid grid-cols-5" variant="destructive" onClick={logout}>
               <LogOut size={18} />
               Sair
             </Button>
+            <span className="text-sm">
+              Versão: {process.env.NEXT_PUBLIC_APP_VERSION ?? '1.0.0'}
+            </span>
           </div>
         </SheetContent>
       </Sheet>
