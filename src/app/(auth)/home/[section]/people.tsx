@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { Loading } from '@/components/ui/loading'
 import {
   Sheet,
@@ -12,7 +13,8 @@ import {
 } from '@/components/ui/sheet'
 import { useToast } from '@/hooks/use-toast'
 import { User } from '@/types/user'
-import { LucideUserRoundCog, User2 } from 'lucide-react'
+import { DialogContent } from '@radix-ui/react-dialog'
+import { LucideUserRoundCog, Settings, User2 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 
 export function People() {
@@ -44,6 +46,21 @@ export function People() {
     }
   }, [])
 
+  async function handleTurnToAdm(id: string, is_admin: boolean) {
+    setIsLoading(true)
+    try {
+      await fetch(`/api/people/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({ is_admin })
+      })
+      await loadData()
+      setIsLoading(false)
+    } catch (error) {
+      console.log(error)
+      setIsLoading(false)
+    }
+  }
+
   return (
     <div className="flex flex-col flex-1">
       <div className="flex flex-col flex-1 items-center gap-2 p-4 overflow-y-scroll">
@@ -56,6 +73,29 @@ export function People() {
             <Card.Content>
               <span>{user.name}</span>
             </Card.Content>
+            <Card.Actions>
+              <Sheet>
+                <SheetTrigger className="w-full flex">
+                  <Settings color="white" />
+                </SheetTrigger>
+                <SheetContent side="bottom" className="rounded-xl">
+                  <SheetHeader>
+                    <span>Opções de usuário</span>
+                  </SheetHeader>
+                  <div className="w-full h-20 flex items-center justify-center">
+                    {!user.is_admin ? (
+                      <Button onClick={() => handleTurnToAdm(user.id, true)}>
+                        Tornar administrador
+                      </Button>
+                    ) : (
+                      <Button onClick={() => handleTurnToAdm(user.id, false)}>
+                        Remover administrador do usuário
+                      </Button>
+                    )}
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </Card.Actions>
           </Card>
         ))}
       </div>

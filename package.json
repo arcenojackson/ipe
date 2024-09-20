@@ -10,7 +10,8 @@
     "lint": "yarn biome check --write",
     "prepare": "husky",
     "commit": "yarn lint && git add . && cz",
-    "migrate:up": "tsx --env-file=.env src/database/migrations.ts"
+    "migrate:up": "tsx --env-file=.env src/database/migrations/up.ts",
+    "migrate:down": "tsx --env-file=.env src/database/migrations/down.ts"
   },
   "dependencies": {
     "@hello-pangea/dnd": "^16.6.0",

@@ -4,10 +4,8 @@ import { NextResponse } from 'next/server'
 export async function GET() {
   try {
     const { rows } = await db.sql`
-      SELECT id, name, email FROM people ORDER BY name ASC;
+      SELECT id, name, email, is_admin FROM people ORDER BY name ASC;
     `
-    console.warn('rows')
-    console.warn(rows)
     return NextResponse.json({ message: 'OK', data: rows }, { status: 200 })
   } catch (error) {
     console.error('error')
