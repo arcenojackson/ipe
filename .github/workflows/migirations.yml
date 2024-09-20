@@ -22,8 +22,10 @@ jobs:
     - name: Install dependencies
       run: yarn
 
+    - name: Create .env file
+      run: |
+        echo "POSTGRES_URL_NON_POOLING=${{ secrets.POSTGRES_URL_NON_POOLING }}" > .env
+        echo "MASTER_PASSWORD=${{ secrets.MASTER_PASSWORD }}" > .env
+
     - name: Run migrations
       run: yarn migrate:up
-      env:
-        POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
-        MASTER_PASSWORD: ${{ secrets.MASTER_PASSWORD }}

@@ -1,6 +1,7 @@
 services:
   postgres:
     image: postgres:15
+    container_name: ipe_pg
     environment:
       POSTGRES_USER: postgres
       POSTGRES_DB: ipe_db
@@ -12,6 +13,7 @@ services:
 
   pg_proxy:
     image: ghcr.io/neondatabase/wsproxy:latest
+    container_name: ipe_pg_proxy
     environment:
       APPEND_PORT: 'postgres:5432'
       ALLOW_ADDR_REGEX: '.*'
