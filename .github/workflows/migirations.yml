@@ -24,8 +24,11 @@ jobs:
 
     - name: Create .env file
       run: |
+        touch .env
         echo "POSTGRES_URL_NON_POOLING=${{ secrets.POSTGRES_URL_NON_POOLING }}" > .env
         echo "MASTER_PASSWORD=${{ secrets.MASTER_PASSWORD }}" > .env
+        ls
+        cat .env
 
     - name: Run migrations
       run: yarn migrate:up
