@@ -2,6 +2,8 @@
 
 An web app (PWA) to manage events, musics and people in the Presbyterian Church from Estreito/Floripa(SC)
 
+[![Run Migrations](https://github.com/JacksonFA/ipe/actions/workflows/migirations.yml/badge.svg)](https://github.com/JacksonFA/ipe/actions/workflows/migirations.yml)
+
 ## Features
 
 - Events view: Visualize your events calendar
