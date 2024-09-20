@@ -73,29 +73,31 @@ export function People() {
             <Card.Content>
               <span>{user.name}</span>
             </Card.Content>
-            <Card.Actions>
-              <Sheet>
-                <SheetTrigger className="w-full flex">
-                  <Settings color="white" />
-                </SheetTrigger>
-                <SheetContent side="bottom" className="rounded-xl">
-                  <SheetHeader>
-                    <span>Opções de usuário</span>
-                  </SheetHeader>
-                  <div className="w-full h-20 flex items-center justify-center">
-                    {!user.is_admin ? (
-                      <Button onClick={() => handleTurnToAdm(user.id, true)}>
-                        Tornar administrador
-                      </Button>
-                    ) : (
-                      <Button onClick={() => handleTurnToAdm(user.id, false)}>
-                        Remover administrador do usuário
-                      </Button>
-                    )}
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </Card.Actions>
+            {user.is_admin && (
+              <Card.Actions>
+                <Sheet>
+                  <SheetTrigger className="w-full flex">
+                    <Settings color="white" />
+                  </SheetTrigger>
+                  <SheetContent side="bottom" className="rounded-xl">
+                    <SheetHeader>
+                      <span>Opções de usuário</span>
+                    </SheetHeader>
+                    <div className="w-full h-20 flex items-center justify-center">
+                      {!user.is_admin ? (
+                        <Button onClick={() => handleTurnToAdm(user.id, true)}>
+                          Tornar administrador
+                        </Button>
+                      ) : (
+                        <Button onClick={() => handleTurnToAdm(user.id, false)}>
+                          Remover administrador do usuário
+                        </Button>
+                      )}
+                    </div>
+                  </SheetContent>
+                </Sheet>
+              </Card.Actions>
+            )}
           </Card>
         ))}
       </div>
