@@ -17,7 +17,11 @@ import { DialogContent } from '@radix-ui/react-dialog'
 import { LucideUserRoundCog, Settings, User2 } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 
-export function People() {
+type PeopleProps = {
+  currentUser: Partial<User>
+}
+
+export function People({ currentUser }: PeopleProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [isOpen, setIsOpen] = useState(false)
   const [users, setUsers] = useState<User[]>([])
@@ -73,7 +77,7 @@ export function People() {
             <Card.Content>
               <span>{user.name}</span>
             </Card.Content>
-            {user.is_admin && (
+            {currentUser.is_admin && (
               <Card.Actions>
                 <Sheet>
                   <SheetTrigger className="w-full flex">

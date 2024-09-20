@@ -10,6 +10,7 @@ export async function GET() {
       await db.sql`SELECT id, name, email, is_admin FROM people WHERE email <> 'master@ipe.com' ORDER BY name ASC;`
     return NextResponse.json({ message: 'OK', data: rows, users }, { status: 200 })
   } catch (error) {
+    console.error(error)
     return NextResponse.json({ message: 'Internal Error' }, { status: 500 })
   }
 }
@@ -25,6 +26,7 @@ export async function POST(req: Request) {
     const music = rows[0]
     return NextResponse.json({ message: 'OK', data: music }, { status: 201 })
   } catch (error) {
+    console.error(error)
     return NextResponse.json({ message: 'Internal error' }, { status: 500 })
   }
 }
