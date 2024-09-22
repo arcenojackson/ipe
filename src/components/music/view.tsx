@@ -68,7 +68,7 @@ export function MusicView({ id }: PlayingProps) {
             </Button>
           </span>
           <div
-            className={`flex flex-col gap-2 ${fullscreen ? 'absolute top-16 left-0 bottom-0 w-full p-4 z-50 bg-white' : ''}`}
+            className={`flex flex-col gap-2 ${fullscreen ? 'absolute top-10 left-0 bottom-0 w-full px-4 py-8 z-50 bg-white' : ''}`}
           >
             {fullscreen ? (
               <>
@@ -76,7 +76,9 @@ export function MusicView({ id }: PlayingProps) {
                   <CornerUpLeft />
                   Voltar
                 </Button>
-                <pre className="overflow-scroll mb-8 text-lg font-bold">{music.lyrics}</pre>
+                <pre className="overflow-scroll mb-8 text-lg font-bold text-wrap rounded bg-slate-100">
+                  {music.lyrics}
+                </pre>
               </>
             ) : (
               <textarea
