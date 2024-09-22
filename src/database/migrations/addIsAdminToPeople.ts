@@ -2,8 +2,8 @@ import { db } from '../db'
 
 export const AddIsAdminToPeople = {
   up: async () => {
-    const masterPassword = process.env.MASTER_PASSWORD
-    if (!masterPassword) throw new Error('Environment MASTER_PASSWORD must be defined')
+    const masterPassword = process.env.MASTER_HASHED_PASSWORD
+    if (!masterPassword) throw new Error('Environment MASTER_HASHED_PASSWORD must be defined')
     const { rows } = await db.sql`SELECT * FROM migrations WHERE name = 'addIsAdminToPeopleTable';`
     if (rows.length === 1) return
     await db.sql`

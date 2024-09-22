@@ -52,4 +52,11 @@ Running the app:
   yarn dev
 ```
 
-Now, open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Now, open [http://localhost:3000](http://localhost:3000) with your browser:
+
+```bash
+
+  User: master@ipe.com
+  Password: masterpassword
+
+```
