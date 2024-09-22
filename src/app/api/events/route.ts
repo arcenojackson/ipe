@@ -6,7 +6,7 @@ export async function GET() {
   try {
     const { rows } = await db.sql`
       SELECT id, name, date FROM events
-      WHERE date >= NOW()
+      WHERE DATE(date) >= DATE(NOW())
       ORDER BY date ASC;
     `
     return NextResponse.json({ message: 'OK', data: rows }, { status: 200 })

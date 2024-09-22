@@ -58,32 +58,38 @@ export function MusicView({ id }: PlayingProps) {
           </a>
         </span>
       </div>
-      <span className="font-bold flex gap-4 items-center">
-        Letra:
-        <Button className="w-36 flex gap-4" onClick={() => setFullscreen(!fullscreen)}>
-          <Fullscreen />
-          {fullscreen ? 'Voltar' : 'Tela cheia'}
-        </Button>
-      </span>
-      <div
-        className={`flex flex-col gap-2 ${fullscreen ? 'absolute top-16 left-0 bottom-0 w-full p-4 z-50 bg-white' : ''}`}
-      >
-        {fullscreen && (
-          <Button className="w-36 flex gap-4" onClick={() => setFullscreen(!fullscreen)}>
-            <CornerUpLeft />
-            Voltar
-          </Button>
-        )}
-        {music?.lyrics && (
-          <textarea
-            disabled
-            rows={fullscreen ? 24 : 17}
-            className="resize-none bg-slate-100 rounded-lg pl-2"
+      {music?.lyrics && (
+        <>
+          <span className="font-bold flex gap-4 items-center">
+            Letra:
+            <Button className="w-36 flex gap-4" onClick={() => setFullscreen(!fullscreen)}>
+              <Fullscreen />
+              {fullscreen ? 'Voltar' : 'Tela cheia'}
+            </Button>
+          </span>
+          <div
+            className={`flex flex-col gap-2 ${fullscreen ? 'absolute top-16 left-0 bottom-0 w-full p-4 z-50 bg-white' : ''}`}
           >
-            {music.lyrics}
-          </textarea>
-        )}
-      </div>
+            {fullscreen ? (
+              <>
+                <Button className="w-full flex gap-4" onClick={() => setFullscreen(!fullscreen)}>
+                  <CornerUpLeft />
+                  Voltar
+                </Button>
+                <pre className="overflow-scroll mb-8 text-lg font-bold">{music.lyrics}</pre>
+              </>
+            ) : (
+              <textarea
+                disabled
+                rows={fullscreen ? 24 : 17}
+                className="resize-none bg-slate-100 rounded-lg pl-2"
+              >
+                {music.lyrics}
+              </textarea>
+            )}
+          </div>
+        </>
+      )}
     </section>
   )
 }

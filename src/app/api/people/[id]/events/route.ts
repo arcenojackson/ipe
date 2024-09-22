@@ -13,7 +13,11 @@ export async function GET(_: Request, { params }: RouteProps) {
       FROM events INNER JOIN events_contents ON (events.id = events_contents.event_id)
       ORDER BY events.date ASC;
     `
-    const data = rows?.filter((row) => row?.people?.includes(id) && new Date() < new Date(row.date))
+    const data = rows?.filter(
+      (row) =>
+        row?.people?.includes(id) &&
+        new Date(row.date).setHours(0, 0, 0, 0) >= new Date().setHours(0, 0, 0, 0)
+    )
     return NextResponse.json({ message: 'Eventos do usuários', data }, { status: 200 })
   } catch (error) {
     console.log(error)
