@@ -67,7 +67,7 @@ export function People({ currentUser }: PeopleProps) {
 
   return (
     <div className="flex flex-col flex-1">
-      <div className="flex flex-col flex-1 items-center gap-2 p-4 overflow-y-scroll">
+      <div className="flex flex-col h-[calc(100vh-300px)] items-center gap-2 mt-4 px-4 overflow-y-auto">
         {isLoading && <Loading />}
         {users.map((user) => (
           <Card height="h-16" bgColor="bg-slate-800" key={user.id}>

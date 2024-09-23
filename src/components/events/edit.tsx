@@ -34,7 +34,7 @@ export function EventEdit({ id, loadData, closeModal }: EventProps) {
     defaultValues: {
       name: '',
       date: undefined,
-      start: ''
+      start: '19:30'
     }
   })
 

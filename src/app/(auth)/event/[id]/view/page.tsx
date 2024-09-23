@@ -125,7 +125,7 @@ export default function EventView({ params }: EventProps) {
                           </div>
                         </span>
                       </DialogTrigger>
-                      <DialogContent className="rounded-xl">
+                      <DialogContent className="max-w-sm sm:max-w-2xl rounded-xl">
                         <DialogHeader>
                           <DialogTitle>
                             {musics.find((music) => music.id === step.musicId)?.title}
@@ -169,7 +169,7 @@ export default function EventView({ params }: EventProps) {
                             </span>
                           </Card.Content>
                         </DialogTrigger>
-                        <DialogContent className="rounded-xl">
+                        <DialogContent className="max-w-sm sm:max-w-2xl rounded-xl">
                           <DialogHeader>
                             <DialogTitle>{music.title}</DialogTitle>
                             <DialogDescription>{music.artist}</DialogDescription>
