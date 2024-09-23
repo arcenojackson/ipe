@@ -2,8 +2,6 @@
 
 An web app (PWA) to manage events, musics and people in the Presbyterian Church from Estreito/Floripa(SC)
 
-[![Run Migrations](https://github.com/JacksonFA/ipe/actions/workflows/migirations.yml/badge.svg)](https://github.com/JacksonFA/ipe/actions/workflows/migirations.yml)
-
 ## Features
 
 - Events view: Visualize your events calendar
@@ -18,13 +16,15 @@ An web app (PWA) to manage events, musics and people in the Presbyterian Church 
 <img src=".github/assets/music.png" alt="IPE App Screenshot" width="200" />
 </div>
 
-## Prerequisites
+## Getting Started
+
+### Prerequisites
 
 - Docker
 - Node >=20.12
 - Yarn
 
-## Getting Started
+### Running
 
 First of all, setup the .env file copying the content of .env.example to a new file named ".env":
 
@@ -55,8 +55,23 @@ Running the app:
 Now, open [http://localhost:3000](http://localhost:3000) with your browser:
 
 ```bash
-
   User: master@ipe.com
   Password: masterpassword
-
 ```
+
+- Or create a new account
+
+## Contributing
+
+[![Run Migrations](https://github.com/JacksonFA/ipe/actions/workflows/migirations.yml/badge.svg)](https://github.com/JacksonFA/ipe/actions/workflows/migirations.yml)
+
+For contribute to the project:
+
+- Fork this project; [(Click here)](https://github.com/JacksonFA/ipe/fork)
+- Add your contribute;
+- Use `yarn commit` command to create a conventional commits;
+- Create a pull request;
+
+## License
+
+MIT
