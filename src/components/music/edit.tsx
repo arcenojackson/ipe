@@ -206,6 +206,7 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
                   placeholder="Adicione a letra da música"
                   {...field}
                   value={field.value!}
+                  rows={10}
                 />
               </FormControl>
               <FormDescription>Copie o link da cifra da música e cole aqui</FormDescription>
