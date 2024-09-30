@@ -10,7 +10,7 @@ type PlayingProps = {
 
 export function MusicView({ id }: PlayingProps) {
   const [music, setMusic] = useState<Music | null>(null)
-  const [fullscreen, setFullscreen] = useState(false)
+  const [fullscreen, setFullscreen] = useState<'cipher' | 'lyrics' | ''>('')
 
   useEffect(() => {
     if (!id) return
@@ -38,60 +38,42 @@ export function MusicView({ id }: PlayingProps) {
 
   return (
     <section
-      className={`flex flex-col gap-4 ${fullscreen ? 'h-screen' : 'h-[calc(100vh-300px)]'} border-b overflow-hidden p-4`}
+      className={`flex flex-col items-center gap-4 ${fullscreen ? 'h-screen' : 'h-[calc(100vh-300px)]'} border-b overflow-hidden p-4`}
     >
-      <div className="grid grid-cols-2">
-        <span className="font-bold">
-          Versão:
-          <a href={music?.youtube} target="_blank" rel="noopener noreferrer">
-            <p className="flex font-normal text-sky-700 gap-2">
-              YouTube <ExternalLink size={20} />
-            </p>
-          </a>
-        </span>
-        <span className="font-bold">
-          Cifra:
-          <a href={music?.cipher} target="_blank" rel="noopener noreferrer">
-            <p className="flex font-normal text-sky-700 gap-2">
-              Cifra Club <ExternalLink size={20} />
-            </p>
-          </a>
-        </span>
+      <iframe
+        className="w-full aspect-video self-stretch min-h-52 md:min-h-60 rounded-lg shadow-sm"
+        src={music?.youtube}
+        title={music?.title}
+        aria-hidden="true"
+      />
+      <div className="w-full grid grid-cols-2 place-items-center mt-4">
+        <Button className="w-36 flex gap-4" onClick={() => setFullscreen('lyrics')}>
+          <Fullscreen />
+          Letra
+        </Button>
+        <a href={music?.cipher} target="_blank" rel="noopener noreferrer">
+          <Button className="w-36 flex gap-4">
+            <Fullscreen />
+            Cifra
+          </Button>
+        </a>
       </div>
-      {music?.lyrics && (
-        <>
-          <span className="font-bold flex gap-4 items-center">
-            Letra:
-            <Button className="w-36 flex gap-4" onClick={() => setFullscreen(!fullscreen)}>
-              <Fullscreen />
-              {fullscreen ? 'Voltar' : 'Tela cheia'}
-            </Button>
-          </span>
-          <div
-            className={`flex flex-col gap-2 ${fullscreen ? 'absolute top-10 left-0 bottom-0 w-full px-4 py-8 z-50 bg-white' : ''}`}
-          >
-            {fullscreen ? (
-              <>
-                <Button className="w-full flex gap-4" onClick={() => setFullscreen(!fullscreen)}>
-                  <CornerUpLeft />
-                  Voltar
-                </Button>
-                <pre className="overflow-scroll mb-8 text-lg font-bold text-wrap rounded bg-slate-100">
-                  {music.lyrics}
-                </pre>
-              </>
-            ) : (
-              <textarea
-                disabled
-                rows={fullscreen ? 24 : 17}
-                className="resize-none bg-slate-100 rounded-lg pl-2"
-              >
-                {music.lyrics}
-              </textarea>
-            )}
-          </div>
-        </>
-      )}
+      {fullscreen !== '' &&
+        FullScreen(fullscreen === 'cipher' ? music?.cipher! : music?.lyrics!, () =>
+          setFullscreen('')
+        )}
     </section>
   )
 }
+
+const FullScreen = (text: string, close: () => void) => (
+  <div className="absolute top-14 left-0 w-full h-screen overflow-auto px-4 py-8 z-50 bg-white">
+    <Button className="w-full flex gap-4" onClick={close}>
+      <CornerUpLeft />
+      Voltar
+    </Button>
+    <pre className="overflow-auto mb-8 text-lg font-bold text-wrap rounded bg-slate-100">
+      {text}
+    </pre>
+  </div>
+)
