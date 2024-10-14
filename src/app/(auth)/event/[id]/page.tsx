@@ -430,7 +430,7 @@ export default function Event({ params }: EventProps) {
                                   <CommandItem
                                     key={music.id}
                                     value={music.title}
-                                    onSelect={(currentValue) => {
+                                    onSelect={() => {
                                       setAddingStep({
                                         ...addingStep!,
                                         title: music.title,
