@@ -26,6 +26,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Loading } from '@/components/ui/loading'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import {
   Select,
   SelectContent,
@@ -418,7 +419,7 @@ export default function Event({ params }: EventProps) {
                         <PopoverContent className="w-full p-0">
                           <Command>
                             <CommandInput
-                              autoFocus={false}
+                              autoFocus={true}
                               placeholder="Buscar música..."
                               className="h-9"
                             />
@@ -428,15 +429,14 @@ export default function Event({ params }: EventProps) {
                                 {musics.map((music) => (
                                   <CommandItem
                                     key={music.id}
-                                    value={music.id}
+                                    value={music.title}
                                     onSelect={(currentValue) => {
                                       setAddingStep({
                                         ...addingStep!,
                                         title: music.title,
                                         description: '',
                                         type: 'music',
-                                        musicId:
-                                          currentValue === addingStep?.musicId ? '' : currentValue,
+                                        musicId: music.id === addingStep?.musicId ? '' : music.id,
                                         musicTone: music.tone
                                       })
                                     }}
@@ -534,10 +534,9 @@ export default function Event({ params }: EventProps) {
                     <SheetDescription>Seleciona uma ou mais pessoas</SheetDescription>
                   </SheetHeader>
                   {users.map((user) => (
-                    <div className="flex gap-4 items-center">
+                    <div className="flex gap-4 items-center" key={user.id}>
                       <Checkbox
                         id={user.id}
-                        key={user.id}
                         checked={people?.includes(user.id)}
                         onCheckedChange={(checked) => {
                           return checked
