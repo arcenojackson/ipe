@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/dialog'
 import { Loading } from '@/components/ui/loading'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { getTone } from '@/lib/utils'
 import { EventSteps } from '@/types/event'
 import { Music } from '@/types/music'
 import { User } from '@/types/user'
@@ -120,7 +121,7 @@ export default function EventView({ params }: EventProps) {
                           <div className="flex gap-2 mt-2">
                             <Badge variant="default">Música</Badge>
                             <Badge className="w-10 flex items-center justify-center">
-                              {step?.musicTone}
+                              {getTone(step.musicTone!)}
                             </Badge>
                           </div>
                         </span>
@@ -164,7 +165,9 @@ export default function EventView({ params }: EventProps) {
                             <span className="ml-4 text-slate-900 flex flex-col text-start">
                               {music.title}
                               <Badge className="w-10 flex items-center justify-center">
-                                {steps.find((step) => step.musicId === music.id)?.musicTone}
+                                {getTone(
+                                  steps.find((step) => step.musicId === music.id)?.musicTone!
+                                )}
                               </Badge>
                             </span>
                           </Card.Content>
@@ -174,7 +177,10 @@ export default function EventView({ params }: EventProps) {
                             <DialogTitle>{music.title}</DialogTitle>
                             <DialogDescription>{music.artist}</DialogDescription>
                           </DialogHeader>
-                          <MusicView id={music.id} />
+                          <MusicView
+                            id={music.id}
+                            customTone={steps.find((step) => step.musicId === music.id)?.musicTone!}
+                          />
                         </DialogContent>
                       </Dialog>
                     </Card>
