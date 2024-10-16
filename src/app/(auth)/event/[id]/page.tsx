@@ -1,5 +1,6 @@
 'use client'
 
+import { Tones } from '@/components/music/tones'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -282,20 +283,30 @@ export default function Event({ params }: EventProps) {
                                         })
                                       }
                                     />
-                                    {updatingStep?.type === 'music' && updatingStep?.musicTone && (
+                                    {updatingStep?.type === 'music' && (
                                       <>
-                                        <label htmlFor="musicTone">Tom</label>
-                                        <Input
+                                        <label>Tom</label>
+                                        <Tones
+                                          tone={updatingStep?.musicTone!}
+                                          setTone={(value) =>
+                                            setUpdatingStep({
+                                              ...updatingStep!,
+                                              musicTone: value
+                                            })
+                                          }
+                                          minorTone={false}
+                                        />
+                                        {/* <Input
                                           id="musicTone"
                                           name="musicTone"
-                                          value={updatingStep?.musicTone}
+                                          value={updatingStep?.musicTone ?? ''}
                                           onChange={(e) =>
                                             setUpdatingStep({
                                               ...updatingStep!,
                                               musicTone: e.target.value
                                             })
                                           }
-                                        />
+                                        /> */}
                                       </>
                                     )}
                                     <div className="w-full flex flex-col gap-2 mt-4">

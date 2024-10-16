@@ -1,5 +1,7 @@
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { FontBoldIcon, FontItalicIcon } from '@radix-ui/react-icons'
+import { UnderlineIcon } from 'lucide-react'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -14,7 +16,11 @@ import {
   FormMessage
 } from '../ui/form'
 import { Input } from '../ui/input'
+import { Label } from '../ui/label'
+import { Switch } from '../ui/switch'
 import { Textarea } from '../ui/textarea'
+import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
+import { Tones } from './tones'
 
 const formSchema = z.object({
   title: z.string().min(2),
@@ -24,8 +30,7 @@ const formSchema = z.object({
   cipher: z.string(),
   lyrics: z.string().nullable().optional(),
   bpm: z.string().nullable().optional(),
-  tempo: z.string().nullable().optional(),
-  tone: z.string()
+  tempo: z.string().nullable().optional()
 })
 
 type Fields =
@@ -36,8 +41,9 @@ type Fields =
   | 'cipher'
   | 'lyrics'
   | 'bpm'
-  | 'tone'
   | 'tempo'
+  | 'tone'
+  | 'minorTone'
 
 type MusicProps = {
   id?: string
@@ -47,6 +53,8 @@ type MusicProps = {
 
 export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const [tone, setTone] = useState<string | null>(null)
+  const [minorTone, setMinorTone] = useState(false)
   const { toast } = useToast()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -58,8 +66,7 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
       cipher: '',
       lyrics: '',
       bpm: '0',
-      tempo: '4/4',
-      tone: ''
+      tempo: '4/4'
     }
   })
 
@@ -81,6 +88,14 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
         const music = result.data
         for (const key in music) {
           const field: Fields = key as Fields
+          if (field === 'tone') {
+            setTone(music[field])
+            continue
+          }
+          if (field === 'minorTone') {
+            setMinorTone(music[field])
+            continue
+          }
           if (field === 'bpm') {
             form.setValue(field, String(music[field]))
             continue
@@ -94,17 +109,23 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
   }, [])
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    const body = JSON.stringify({
+      ...values,
+      tone,
+      minorTone
+    })
+    console.log(JSON.parse(body))
     setIsLoading(true)
     if (id) {
       await fetch(`/api/musics/${id}`, {
         method: 'PUT',
-        body: JSON.stringify(values)
+        body
       })
       return postSubmit('✓ Música editada com sucesso!')
     }
     await fetch('/api/musics', {
       method: 'POST',
-      body: JSON.stringify(values)
+      body
     })
     form.reset()
     if (closeModal) closeModal()
@@ -240,19 +261,12 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="tone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tom</FormLabel>
-              <FormControl>
-                <Input placeholder="Tom principal" {...field} value={field.value!} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <FormLabel>Tom</FormLabel>
+        <Tones tone={tone} setTone={(value) => setTone(value)} minorTone={minorTone} />
+        <div className="flex gap-2 items-center">
+          <Switch id="tone-minor" checked={minorTone} onCheckedChange={setMinorTone} />
+          <Label htmlFor="tone-minor">Tom menor?</Label>
+        </div>
         <Button type="submit" className="w-full" disabled={isLoading} isLoading={isLoading}>
           Salvar música
         </Button>

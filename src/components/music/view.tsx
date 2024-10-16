@@ -6,9 +6,10 @@ import { Button } from '../ui/button'
 
 type PlayingProps = {
   id?: string
+  customTone?: string
 }
 
-export function MusicView({ id }: PlayingProps) {
+export function MusicView({ id, customTone }: PlayingProps) {
   const [music, setMusic] = useState<Music | null>(null)
   const [fullscreen, setFullscreen] = useState<'cipher' | 'lyrics' | ''>('')
 
@@ -51,7 +52,11 @@ export function MusicView({ id }: PlayingProps) {
           <Fullscreen />
           Letra
         </Button>
-        <a href={music?.cipher} target="_blank" rel="noopener noreferrer">
+        <a
+          href={`${music?.cipher}#key=${customTone ?? music?.tone}&tabs=false`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Button className="w-36 flex gap-4">
             <Fullscreen />
             Cifra

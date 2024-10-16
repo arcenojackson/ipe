@@ -38,7 +38,7 @@ export class InitialMigrations {
         lyrics TEXT,
         bpm INT,
         tempo TEXT,
-        tone CHAR,
+        tone TEXT,
         PRIMARY KEY (id)
       );
     `
