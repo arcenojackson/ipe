@@ -16,11 +16,12 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const { title, artist, obs, youtube, cipher, lyrics, bpm, tempo, tone } = await req.json()
+  const { title, artist, obs, youtube, cipher, lyrics, bpm, tempo, tone, minorTone } =
+    await req.json()
   try {
     const { rows } = await db.sql`
-    INSERT INTO musics (title, artist, obs, youtube, cipher, lyrics, bpm, tempo, tone)
-    VALUES (${title}, ${artist}, ${obs}, ${youtube}, ${cipher}, ${lyrics}, ${bpm}, ${tempo}, ${tone})
+    INSERT INTO musics (title, artist, obs, youtube, cipher, lyrics, bpm, tempo, tone, minor_tone)
+    VALUES (${title}, ${artist}, ${obs}, ${youtube}, ${cipher}, ${lyrics}, ${bpm}, ${tempo}, ${tone}, ${minorTone})
     RETURNING *;
     `
     const music = rows[0]

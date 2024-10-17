@@ -296,17 +296,6 @@ export default function Event({ params }: EventProps) {
                                           }
                                           minorTone={false}
                                         />
-                                        {/* <Input
-                                          id="musicTone"
-                                          name="musicTone"
-                                          value={updatingStep?.musicTone ?? ''}
-                                          onChange={(e) =>
-                                            setUpdatingStep({
-                                              ...updatingStep!,
-                                              musicTone: e.target.value
-                                            })
-                                          }
-                                        /> */}
                                       </>
                                     )}
                                     <div className="w-full flex flex-col gap-2 mt-4">
@@ -468,17 +457,16 @@ export default function Event({ params }: EventProps) {
                           </Command>
                         </PopoverContent>
                       </Popover>
-                      <Input
-                        id="musicTone"
-                        name="musicTone"
-                        placeholder="Tom da música"
-                        value={addingStep?.musicTone}
-                        onChange={(e) =>
+                      <label>Tom</label>
+                      <Tones
+                        tone={addingStep?.musicTone!}
+                        setTone={(value) =>
                           setAddingStep({
                             ...addingStep!,
-                            musicTone: e.target.value
+                            musicTone: value
                           })
                         }
+                        minorTone={false}
                       />
                     </>
                   )}

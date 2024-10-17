@@ -16,40 +16,40 @@ export function Tones({ tone, setTone, minorTone }: TonesProps) {
       defaultValue="0"
       onValueChange={(value) => setTone(value)}
     >
-      <ToggleGroupItem value="0" aria-label="Toggle 0">
+      <ToggleGroupItem value="0" className="data-[state=on]:bg-slate-300" aria-label="Toggle 0">
         A{minorTone && 'm'}
       </ToggleGroupItem>
-      <ToggleGroupItem value="1" aria-label="Toggle 1">
+      <ToggleGroupItem value="1" className="data-[state=on]:bg-slate-300" aria-label="Toggle 1">
         A#{minorTone && 'm'}
       </ToggleGroupItem>
-      <ToggleGroupItem value="2" aria-label="Toggle 2">
+      <ToggleGroupItem value="2" className="data-[state=on]:bg-slate-300" aria-label="Toggle 2">
         B{minorTone && 'm'}
       </ToggleGroupItem>
-      <ToggleGroupItem value="3" aria-label="Toggle 3">
+      <ToggleGroupItem value="3" className="data-[state=on]:bg-slate-300" aria-label="Toggle 3">
         C{minorTone && 'm'}
       </ToggleGroupItem>
-      <ToggleGroupItem value="4" aria-label="Toggle 4">
+      <ToggleGroupItem value="4" className="data-[state=on]:bg-slate-300" aria-label="Toggle 4">
         C#{minorTone && 'm'}
       </ToggleGroupItem>
-      <ToggleGroupItem value="5" aria-label="Toggle 5">
+      <ToggleGroupItem value="5" className="data-[state=on]:bg-slate-300" aria-label="Toggle 5">
         D{minorTone && 'm'}
       </ToggleGroupItem>
-      <ToggleGroupItem value="6" aria-label="Toggle 6">
+      <ToggleGroupItem value="6" className="data-[state=on]:bg-slate-300" aria-label="Toggle 6">
         D#{minorTone && 'm'}
       </ToggleGroupItem>
-      <ToggleGroupItem value="7" aria-label="Toggle 7">
+      <ToggleGroupItem value="7" className="data-[state=on]:bg-slate-300" aria-label="Toggle 7">
         E{minorTone && 'm'}
       </ToggleGroupItem>
-      <ToggleGroupItem value="8" aria-label="Toggle 8">
+      <ToggleGroupItem value="8" className="data-[state=on]:bg-slate-300" aria-label="Toggle 8">
         F{minorTone && 'm'}
       </ToggleGroupItem>
-      <ToggleGroupItem value="9" aria-label="Toggle 9">
+      <ToggleGroupItem value="9" className="data-[state=on]:bg-slate-300" aria-label="Toggle 9">
         F#{minorTone && 'm'}
       </ToggleGroupItem>
-      <ToggleGroupItem value="10" aria-label="Toggle 10">
+      <ToggleGroupItem value="10" className="data-[state=on]:bg-slate-300" aria-label="Toggle 10">
         G{minorTone && 'm'}
       </ToggleGroupItem>
-      <ToggleGroupItem value="11" aria-label="Toggle 11">
+      <ToggleGroupItem value="11" className="data-[state=on]:bg-slate-300" aria-label="Toggle 11">
         G#{minorTone && 'm'}
       </ToggleGroupItem>
     </ToggleGroup>

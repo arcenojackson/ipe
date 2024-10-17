@@ -1,7 +1,8 @@
 import { useToast } from '@/hooks/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FontBoldIcon, FontItalicIcon } from '@radix-ui/react-icons'
-import { UnderlineIcon } from 'lucide-react'
+import { Eraser, UnderlineIcon } from 'lucide-react'
+import Image from 'next/image'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -17,9 +18,10 @@ import {
 } from '../ui/form'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
+import { ScrollArea } from '../ui/scroll-area'
 import { Switch } from '../ui/switch'
 import { Textarea } from '../ui/textarea'
-import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group'
 import { Tones } from './tones'
 
 const formSchema = z.object({
@@ -30,7 +32,9 @@ const formSchema = z.object({
   cipher: z.string(),
   lyrics: z.string().nullable().optional(),
   bpm: z.string().nullable().optional(),
-  tempo: z.string().nullable().optional()
+  tempo: z.string().nullable().optional(),
+  tone: z.string(),
+  minorTone: z.boolean()
 })
 
 type Fields =
@@ -43,7 +47,7 @@ type Fields =
   | 'bpm'
   | 'tempo'
   | 'tone'
-  | 'minorTone'
+  | 'minor_tone'
 
 type MusicProps = {
   id?: string
@@ -55,6 +59,11 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [tone, setTone] = useState<string | null>(null)
   const [minorTone, setMinorTone] = useState(false)
+  const [youtubeSearch, setYoutubeSearch] = useState('')
+  const [youtubeSearchModal, setYoutubeSearchModal] = useState(false)
+  const [youtubeResults, setYoutubeResults] = useState<
+    { id: string; image: string; title: string }[]
+  >([])
   const { toast } = useToast()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,7 +75,9 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
       cipher: '',
       lyrics: '',
       bpm: '0',
-      tempo: '4/4'
+      tempo: '4/4',
+      tone: '',
+      minorTone: false
     }
   })
 
@@ -88,12 +99,15 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
         const music = result.data
         for (const key in music) {
           const field: Fields = key as Fields
+          setYoutubeSearch(`${music.title} - ${music.artist}`)
           if (field === 'tone') {
             setTone(music[field])
+            form.setValue(field, String(music[field]))
             continue
           }
-          if (field === 'minorTone') {
+          if (field === 'minor_tone') {
             setMinorTone(music[field])
+            form.setValue('minorTone', music[field])
             continue
           }
           if (field === 'bpm') {
@@ -109,23 +123,17 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
   }, [])
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const body = JSON.stringify({
-      ...values,
-      tone,
-      minorTone
-    })
-    console.log(JSON.parse(body))
     setIsLoading(true)
     if (id) {
       await fetch(`/api/musics/${id}`, {
         method: 'PUT',
-        body
+        body: JSON.stringify(values)
       })
       return postSubmit('✓ Música editada com sucesso!')
     }
     await fetch('/api/musics', {
       method: 'POST',
-      body
+      body: JSON.stringify(values)
     })
     form.reset()
     if (closeModal) closeModal()
@@ -141,6 +149,16 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
     })
     await loadData()
     setIsLoading(false)
+  }
+
+  async function loadYTVideos() {
+    try {
+      const response = await fetch(`/api/musics/search/youtube?q=${youtubeSearch}`)
+      const result = await response.json()
+      setYoutubeResults(result.data)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -188,20 +206,47 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="youtube"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Versão da músca</FormLabel>
-              <FormControl>
-                <Input placeholder="Link do vídeo" {...field} value={field.value!} />
-              </FormControl>
-              <FormDescription>Copie o link de um vídeo do Youtube e cole aqui</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
+        <FormLabel>Versão da música</FormLabel>
+        <div className="flex w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-within:ring-1 focus-within:ring-ring">
+          <input
+            placeholder="Busque músicas ou banda/cantor..."
+            value={youtubeSearch}
+            onChange={(e) => setYoutubeSearch(e.target.value)}
+            className="flex-1 focus-visible:outline-none"
+          />
+          <Eraser className="cursor-pointer" onClick={() => setYoutubeSearch('')} />
+        </div>
+        <Popover open={youtubeSearchModal} onOpenChange={setYoutubeSearchModal} modal={true}>
+          <PopoverTrigger asChild>
+            <Button className="-mt-2" variant="outline" onClick={loadYTVideos}>
+              Buscar no Youtube
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[350px] h-[420px] flex flex-col gap-4 bg-slate-600 rounded-lg overflow-scroll">
+            {youtubeResults.map((item) => (
+              <div
+                key={item.id}
+                className="flex flex-col items-center justify-center gap-2 p-4 border rounded-lg cursor-pointer"
+                onClick={() => {
+                  form.setValue('youtube', `https://www.youtube.com/embed/${item.id}`)
+                  setYoutubeSearch(item.title)
+                  setYoutubeSearchModal(false)
+                  setYoutubeResults([])
+                }}
+              >
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  width={150}
+                  height={50}
+                  className="rounded-lg"
+                />
+                <span className="w-60 text-center text-slate-50">{item.title}</span>
+              </div>
+            ))}
+          </PopoverContent>
+        </Popover>
         <FormField
           control={form.control}
           name="cipher"
@@ -262,9 +307,23 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
           )}
         />
         <FormLabel>Tom</FormLabel>
-        <Tones tone={tone} setTone={(value) => setTone(value)} minorTone={minorTone} />
+        <Tones
+          tone={tone}
+          setTone={(value) => {
+            setTone(value)
+            form.setValue('tone', value)
+          }}
+          minorTone={minorTone}
+        />
         <div className="flex gap-2 items-center">
-          <Switch id="tone-minor" checked={minorTone} onCheckedChange={setMinorTone} />
+          <Switch
+            id="tone-minor"
+            checked={minorTone}
+            onCheckedChange={(checked) => {
+              setMinorTone(checked)
+              form.setValue('minorTone', checked)
+            }}
+          />
           <Label htmlFor="tone-minor">Tom menor?</Label>
         </div>
         <Button type="submit" className="w-full" disabled={isLoading} isLoading={isLoading}>
