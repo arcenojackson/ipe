@@ -8,7 +8,7 @@ type RouteProps = {
 export async function GET(_: Request, { params }: RouteProps) {
   try {
     const { rows } = await db.sql`
-      SELECT title, artist, obs, youtube, cipher, lyrics, bpm, tempo, tone, minor_tone
+      SELECT title, artist, obs, youtube, cipher, lyrics, bpm, tempo, tone, minor_tone, category
       FROM musics WHERE id = ${params.id};
     `
     if (!rows.length)
@@ -22,7 +22,7 @@ export async function GET(_: Request, { params }: RouteProps) {
 }
 
 export async function PUT(req: Request, { params }: RouteProps) {
-  const { title, artist, obs, youtube, cipher, lyrics, bpm, tempo, tone, minorTone } =
+  const { title, artist, obs, youtube, cipher, lyrics, bpm, tempo, tone, minorTone, category } =
     await req.json()
   try {
     const { rows } = await db.sql`
@@ -36,7 +36,8 @@ export async function PUT(req: Request, { params }: RouteProps) {
           bpm = ${bpm},
           tempo = ${tempo},
           tone = ${tone},
-          minor_tone = ${minorTone}
+          minor_tone = ${minorTone},
+          category = ${category}
       WHERE id = ${params.id}
       RETURNING *;
     `

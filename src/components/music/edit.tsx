@@ -1,12 +1,21 @@
 import { useToast } from '@/hooks/use-toast'
+import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FontBoldIcon, FontItalicIcon } from '@radix-ui/react-icons'
-import { Eraser, UnderlineIcon } from 'lucide-react'
+import { CaretSortIcon } from '@radix-ui/react-icons'
+import { CheckIcon, Eraser } from 'lucide-react'
 import Image from 'next/image'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Button } from '../ui/button'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList
+} from '../ui/command'
 import {
   Form,
   FormControl,
@@ -34,7 +43,8 @@ const formSchema = z.object({
   bpm: z.string().nullable().optional(),
   tempo: z.string().nullable().optional(),
   tone: z.string(),
-  minorTone: z.boolean()
+  minorTone: z.boolean(),
+  category: z.string().default('')
 })
 
 type Fields =
@@ -48,6 +58,7 @@ type Fields =
   | 'tempo'
   | 'tone'
   | 'minor_tone'
+  | 'category'
 
 type MusicProps = {
   id?: string
@@ -60,6 +71,8 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
   const [tone, setTone] = useState<string | null>(null)
   const [minorTone, setMinorTone] = useState(false)
   const [youtubeSearch, setYoutubeSearch] = useState('')
+  const [categories, setCategories] = useState<{ id: string; name: string }[]>([])
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [youtubeSearchModal, setYoutubeSearchModal] = useState(false)
   const [youtubeResults, setYoutubeResults] = useState<
     { id: string; image: string; title: string }[]
@@ -77,7 +90,8 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
       bpm: '0',
       tempo: '4/4',
       tone: '',
-      minorTone: false
+      minorTone: false,
+      category: ''
     }
   })
 
@@ -114,13 +128,33 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
             form.setValue(field, String(music[field]))
             continue
           }
+          if (field === 'category') {
+            setSelectedCategories(String(music[field]).split('; '))
+            form.setValue(field, String(music[field]))
+          }
           form.setValue(field, music[field])
         }
+        await loadCategories()
       } catch (error) {
         console.log(error)
       }
     })()
   }, [])
+
+  async function loadCategories() {
+    const response = await fetch(`/api/categories`)
+    const result = await response.json()
+    if (response.status !== 200) {
+      toast({
+        title: 'Categorias',
+        description: result.message,
+        duration: 3000,
+        variant: 'destructive'
+      })
+      return
+    }
+    setCategories(result.data)
+  }
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true)
@@ -180,6 +214,7 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="artist"
@@ -193,6 +228,60 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
             </FormItem>
           )}
         />
+
+        <FormLabel>Categorias</FormLabel>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={true}
+              className="w-full justify-between"
+            >
+              {!selectedCategories.length
+                ? 'Selecione uma categoria...'
+                : selectedCategories.join('; ')}
+              <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-full p-0">
+            <Command>
+              <CommandInput autoFocus={true} placeholder="Buscar categorias..." className="h-9" />
+              <CommandList>
+                <CommandEmpty>Nenhuma categoria encontrada.</CommandEmpty>
+                <CommandGroup>
+                  {categories.map((category) => (
+                    <CommandItem
+                      key={category.id}
+                      value={category.name}
+                      onSelect={() => {
+                        let sortedCategories: string[] = []
+                        if (selectedCategories.includes(category.name)) {
+                          sortedCategories = selectedCategories.filter((c) => c !== category.name)
+                        } else {
+                          sortedCategories = [...selectedCategories, category.name].sort((a, b) =>
+                            a.localeCompare(b)
+                          )
+                        }
+                        setSelectedCategories(sortedCategories)
+                        form.setValue('category', sortedCategories.join('; '))
+                      }}
+                    >
+                      {category.name}
+                      <CheckIcon
+                        className={cn(
+                          'ml-auto h-4 w-4',
+                          selectedCategories.includes(category.name) ? 'opacity-100' : 'opacity-0'
+                        )}
+                      />
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+
         <FormField
           control={form.control}
           name="obs"
@@ -247,6 +336,7 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
             ))}
           </PopoverContent>
         </Popover>
+
         <FormField
           control={form.control}
           name="cipher"
@@ -261,6 +351,7 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="lyrics"
@@ -280,6 +371,7 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="bpm"
@@ -293,6 +385,7 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="tempo"
@@ -306,6 +399,7 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
             </FormItem>
           )}
         />
+
         <FormLabel>Tom</FormLabel>
         <Tones
           tone={tone}
@@ -326,6 +420,7 @@ export function MusicEdit({ id, loadData, closeModal }: MusicProps) {
           />
           <Label htmlFor="tone-minor">Tom menor?</Label>
         </div>
+
         <Button type="submit" className="w-full" disabled={isLoading} isLoading={isLoading}>
           Salvar música
         </Button>
